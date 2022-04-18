@@ -7,9 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
-  declarations: [AppComponent, InicioComponent, SidebarComponent],
+  declarations: [AppComponent, InicioComponent, SidebarComponent, LoginComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
