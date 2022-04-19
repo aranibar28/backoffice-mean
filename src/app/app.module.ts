@@ -8,15 +8,17 @@ import { AppComponent } from './app.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LoginComponent } from './auth/login/login.component';
+import { IndexCustomerComponent } from './components/customers/index-customer/index-customer.component';
 
 @NgModule({
-  declarations: [AppComponent, InicioComponent, SidebarComponent, LoginComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
+  declarations: [
+    AppComponent,
+    InicioComponent,
+    SidebarComponent,
+    LoginComponent,
+    IndexCustomerComponent,
   ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })

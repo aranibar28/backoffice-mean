@@ -1,0 +1,96 @@
+<app-sidebar></app-sidebar>
+
+<!-- Page title-->
+<div class="border-bottom pt-5 mt-2 mb-5">
+<h1 class="mt-2 mt-md-4 mb-3 pt-5">Clientes</h1>
+<div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+    <p class="text-muted">Este módulo lista todos los clientes de la tienda.</p>
+    <p class="font-size-sm font-weight-medium pl-md-4"><a class="text-nowrap" href="https://getbootstrap.com/docs/4.5/components/forms/" target="_blank" rel="noopener">Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a></p>
+</div>
+</div>
+
+<div class="card box-shadow-sm">
+    <div class="card-header">
+        <h5 style="margin-bottom: 0px;">Filtro de clientes</h5>
+    </div>
+    <div class="card-header">
+        <form class="form-inline pt-2">
+            <label class="sr-only" for="inline-form-input-name">Apellidos</label>
+            <input name="filter_name" (keyup)="filter('last_name')" [(ngModel)]="filter_name" class="form-control mb-3 mr-sm-4" type="text" placeholder="Apellidos">
+            <label class="sr-only" for="inline-form-input-username">Correo</label>
+            <div class="input-group mb-3 mr-sm-4">
+            <div class="input-group-prepend">
+                <div class="input-group-text">@</div>
+            </div>
+            <input name="filter_email" (keyup)="filter('email')" [(ngModel)]="filter_email" class="form-control" type="text" placeholder="Email">
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="thead-dark">
+                    <th>#</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Correo</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let customer of customers; let i = index">
+                    <th>{{i+1}}</th>
+                    <td>{{customer.first_name}}</td>
+                    <td>{{customer.last_name}}</td>
+                    <td>{{customer.email}}</td>
+                    <td>
+                    <div class="btn-group dropdown">
+                        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Opciones
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Editar</a>
+                            <a href="#" class="dropdown-item">Eliminar</a>
+                        </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                <a href="#" class="page-link">Prev</a>
+                </li>
+                <li class="page-item d-sm-none">
+                <span class="page-link page-link-static">2 / 5</span>
+                </li>
+                <li class="page-item d-none d-sm-block">
+                <a href="#" class="page-link">1</a>
+                </li>
+                <li class="page-item active d-none d-sm-block" aria-current="page">
+                <span class="page-link">
+                    2
+                    <span class="sr-only">(current)</span>
+                </span>
+                </li>
+                <li class="page-item d-none d-sm-block">
+                <a href="#" class="page-link">3</a>
+                </li>
+                <li class="page-item d-none d-sm-block">
+                <a href="#" class="page-link">4</a>
+                </li>
+                <li class="page-item d-none d-sm-block">
+                <a href="#" class="page-link">5</a>
+                </li>
+                <li class="page-item">
+                <a href="#" class="page-link">Next</a>
+                </li>
+            </ul>
+            </nav>
+    </div>
+</div>    
