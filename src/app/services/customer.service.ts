@@ -13,8 +13,8 @@ export class CustomerService {
     this.url = environment.url;
   }
 
-  list_customers(type: any, filter: any): Observable<any> {
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+  list_customers(type: any, filter: any, token:any): Observable<any> {
+    let headers = new HttpHeaders({'Content-Type': 'application/json', 'token':token});
     return this.http.get(`${this.url}list_customers/${type}/${filter}`, {headers});
   }
 }

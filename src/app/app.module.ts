@@ -9,6 +9,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LoginComponent } from './auth/login/login.component';
 import { IndexCustomerComponent } from './components/customers/index-customer/index-customer.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CreateCustomerComponent } from './components/customers/create-customer/create-customer.component';
 
 @NgModule({
   declarations: [
@@ -17,8 +19,15 @@ import { IndexCustomerComponent } from './components/customers/index-customer/in
     SidebarComponent,
     LoginComponent,
     IndexCustomerComponent,
+    CreateCustomerComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    NgxPaginationModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
