@@ -8,10 +8,15 @@
 
 <div class="card box-shadow-sm">
   <div class="card-header">
-    <h5 style="margin-bottom: 0px">Registro de cliente</h5>
+    <h5 style="margin-bottom: 0px">Actualizar Cliente</h5>
   </div>
-  <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
-    <div class="card-body">
+  <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+    <div *ngIf="load_data" class="card-body">
+      <div class="col-12 text-center">
+        <ngx-skeleton-loader count="4" appearance="line" [theme]="{height: '50px'}" ></ngx-skeleton-loader>
+      </div>
+    </div>
+    <div *ngIf="!load_data" class="card-body">
       <div class="row">
         <div class="col-md-4 form-group">
           <label for="validationCustom01" class="form-label">Nombres</label>
@@ -101,10 +106,14 @@
     </div>
     <div class="card-footer">
       <button *ngIf="!loading" class="btn btn-primary mr-2" type="submit">
-        Crear cliente
+        Actualizar Cliente
       </button>
       <button *ngIf="loading" type="button" class="btn btn-primary" disabled>
-        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        <span
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
         Cargando...
       </button>
       <a class="btn btn-warning" routerLink="/dashboard">Regresar</a>

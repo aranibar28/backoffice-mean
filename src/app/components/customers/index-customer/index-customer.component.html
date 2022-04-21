@@ -4,7 +4,7 @@
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
         <p class="text-muted">Este módulo lista todos los clientes de la tienda.</p>
         <p class="font-size-sm font-weight-medium pl-md-4">
-            <a class="text-nowrap" routerLink="/dashboard/clientes/registro" target="_blank" rel="noopener">
+            <a class="text-nowrap" routerLink="/dashboard/clientes/registro" rel="noopener">
                 Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i>
             </a>
         </p>
@@ -40,7 +40,12 @@
                     <th>Opciones</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="loading" >
+                    <td class="text-center" colspan="5">
+                     <ngx-skeleton-loader count="5" appearance="line" [theme]="{height: '40px'}" ></ngx-skeleton-loader>
+                    </td>
+                </tbody>
+                <tbody *ngIf="!loading">
                 <tr *ngFor="let customer of customers | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
                     <th>{{i+1}}</th>
                     <td>{{customer.first_name}}</td>
@@ -52,10 +57,27 @@
                             Opciones
                         </button>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Editar</a>
-                            <a href="#" class="dropdown-item">Eliminar</a>
+                            <a [routerLink]="['/dashboard/clientes', customer._id]" class="dropdown-item">Editar</a>
+                            <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" [attr.data-target]="'#delete-'+customer._id">Eliminar</a>
                         </div>
+                    </div>
+                    <div class="modal fade" id="delete-{{customer._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Eliminar Cliente</h4>
+                              <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                            </div>
+                            <div class="modal-body">
+                              <p>Eliminar el cliente {{customer.first_name}} {{customer.last_name}}</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
+                              <button class="btn btn-primary btn-sm" type="button" (click)="eliminar(customer._id)" >Sí, eliminar!</button>
+                            </div>
+                          </div>
                         </div>
+                      </div>
                     </td>
                 </tr>
                 </tbody>

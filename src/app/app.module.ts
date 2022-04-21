@@ -11,6 +11,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { IndexCustomerComponent } from './components/customers/index-customer/index-customer.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateCustomerComponent } from './components/customers/create-customer/create-customer.component';
+import { EditCustomerComponent } from './components/customers/edit-customer/edit-customer.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { CreateCustomerComponent } from './components/customers/create-customer/
     LoginComponent,
     IndexCustomerComponent,
     CreateCustomerComponent,
+    EditCustomerComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +30,7 @@ import { CreateCustomerComponent } from './components/customers/create-customer/
     FormsModule,
     HttpClientModule,
     NgxPaginationModule,
+    NgxSkeletonLoaderModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
