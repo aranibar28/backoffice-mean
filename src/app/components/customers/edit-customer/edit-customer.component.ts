@@ -57,12 +57,8 @@ export class EditCustomerComponent implements OnInit {
           },
         });
     } else {
-      iziToast.show({
+      iziToast.error({
         title: 'Error!',
-        titleColor: '#FF0000',
-        color: '#FFF',
-        class: 'text-danger',
-        position: 'topRight',
         message: 'Los datos del formulario no son válidos',
       });
     }

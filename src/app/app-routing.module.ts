@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'clientes', pathMatch: 'full' },
     ],
   },
-  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  { path: '**', redirectTo: 'inicio', pathMatch: 'full' },
 ];
 
 @NgModule({

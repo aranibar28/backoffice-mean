@@ -23,14 +23,14 @@ export class CustomerService {
     return this.http.get(url, this.headers);
   }
 
-  register_customer_admin(data: any): Observable<any> {
-    const url = `${base_url}/register_customer_admin`;
-    return this.http.post(url, data, this.headers);
-  }
-
   list_customer_by_id(id: any): Observable<any> {
     const url = `${base_url}/list_customer_by_id/${id}`;
     return this.http.get(url, this.headers);
+  }
+
+  register_customer_admin(data: any): Observable<any> {
+    const url = `${base_url}/register_customer_admin`;
+    return this.http.post(url, data, this.headers);
   }
 
   update_customer_admin(id: any, data: any): Observable<any> {
