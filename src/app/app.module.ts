@@ -13,6 +13,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateCustomerComponent } from './components/customers/create-customer/create-customer.component';
 import { EditCustomerComponent } from './components/customers/edit-customer/edit-customer.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { CreateProductComponent } from './components/products/create-product/create-product.component';
+import { NgxTinymceModule } from 'ngx-tinymce';
+import { IndexProductComponent } from './components/products/index-product/index-product.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     IndexCustomerComponent,
     CreateCustomerComponent,
     EditCustomerComponent,
+    CreateProductComponent,
+    IndexProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +36,9 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     HttpClientModule,
     NgxPaginationModule,
     NgxSkeletonLoaderModule,
+    NgxTinymceModule.forRoot({
+      baseURL: '../../../assets/tinymce/',
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
