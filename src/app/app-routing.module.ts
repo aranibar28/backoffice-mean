@@ -7,6 +7,8 @@ import { IndexCustomerComponent } from './components/customers/index-customer/in
 import { InicioComponent } from './components/inicio/inicio.component';
 import { CreateProductComponent } from './components/products/create-product/create-product.component';
 import { IndexProductComponent } from './components/products/index-product/index-product.component';
+import { InventoryProductComponent } from './components/products/inventory-product/inventory-product.component';
+import { UpdateProductComponent } from './components/products/update-product/update-product.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -18,10 +20,12 @@ const routes: Routes = [
     children: [
       { path: 'clientes',component: IndexCustomerComponent,canActivate: [AuthGuard] },
       { path: 'clientes/registro',component: CreateCustomerComponent, canActivate: [AuthGuard] },
-      { path: 'clientes/:id',component: EditCustomerComponent, canActivate: [AuthGuard] },
+      { path: 'cliente/:id',component: EditCustomerComponent, canActivate: [AuthGuard] },
 
       { path: 'productos',component: IndexProductComponent, canActivate: [AuthGuard] },
       { path: 'productos/registro',component: CreateProductComponent, canActivate: [AuthGuard] },
+      { path: 'producto/:id',component: UpdateProductComponent, canActivate: [AuthGuard] },
+      { path: 'producto/inventario/:id',component: InventoryProductComponent, canActivate: [AuthGuard] },
 
       { path: '', redirectTo: 'clientes', pathMatch: 'full' },
     ],

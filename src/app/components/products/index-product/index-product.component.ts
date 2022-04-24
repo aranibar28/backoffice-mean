@@ -4,6 +4,8 @@ import { environment } from 'src/environments/environment';
 
 const base_url = environment.url;
 declare var iziToast: any;
+declare var jQuery: any;
+declare var $: any;
 
 @Component({
   selector: 'app-index-product',
@@ -49,5 +51,18 @@ export class IndexProductComponent implements OnInit {
     });
   }
 
-  eliminar(id: any) {}
+  eliminar(id: any) {
+    this.productService.delete_product(id).subscribe({
+      next: () => {
+        iziToast.success({
+          title: 'OK',
+          message: 'Se eliminó correctamente!',
+        });
+        $('#delete-' + id).modal('hide');
+        $('.modal-backdrop').removeClass('show');
+        this.list_products();
+      },
+      error: (err) => console.log(err),
+    });
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from 'src/app/services/customer.service';
+
 declare var iziToast: any;
 declare var jQuery: any;
 declare var $: any;

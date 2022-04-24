@@ -58,6 +58,7 @@
                         <div class="dropdown-menu">
                             <a [routerLink]="['/dashboard/producto', product._id]" class="dropdown-item">Editar</a>
                             <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" [attr.data-target]="'#delete-'+product._id">Eliminar</a>
+                            <a [routerLink]="['/dashboard/producto/inventario', product._id]" class="dropdown-item">Inventario</a>
                         </div>
                     </div>
                     <div class="modal fade" id="delete-{{product._id}}" tabindex="-1" style="display: none;" aria-hidden="true">

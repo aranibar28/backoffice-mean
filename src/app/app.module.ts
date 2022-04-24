@@ -16,6 +16,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateProductComponent } from './components/products/create-product/create-product.component';
 import { NgxTinymceModule } from 'ngx-tinymce';
 import { IndexProductComponent } from './components/products/index-product/index-product.component';
+import { UpdateProductComponent } from './components/products/update-product/update-product.component';
+import { InventoryProductComponent } from './components/products/inventory-product/inventory-product.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { IndexProductComponent } from './components/products/index-product/index
     EditCustomerComponent,
     CreateProductComponent,
     IndexProductComponent,
+    UpdateProductComponent,
+    InventoryProductComponent,
   ],
   imports: [
     BrowserModule,

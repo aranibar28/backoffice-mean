@@ -29,21 +29,30 @@ export class CreateProductComponent implements OnInit {
 
   register(registerForm: any) {
     if (registerForm.valid) {
-      this.loading = true;
-      this.productService.register_product(this.product, this.file).subscribe({
-        next: () => {
-          iziToast.success({
-            title: 'OK',
-            message: 'Se registro correctamente!',
+      if (this.file == undefined) {
+        iziToast.error({
+          title: 'Error!',
+          message: 'Debe subir una portada',
+        });
+      } else {
+        this.loading = true;
+        this.productService
+          .register_product(this.product, this.file)
+          .subscribe({
+            next: () => {
+              iziToast.success({
+                title: 'OK',
+                message: 'Se registro correctamente!',
+              });
+              this.loading = false;
+              this.router.navigateByUrl('/dashboard/productos');
+            },
+            error: (err) => {
+              console.log(err);
+              this.loading = false;
+            },
           });
-          this.loading = false;
-          this.router.navigateByUrl('/dashboard/productos');
-        },
-        error: (err) => {
-          console.log(err);
-          this.loading = false;
-        },
-      });
+      }
     } else {
       iziToast.error({
         title: 'Error!',

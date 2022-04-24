@@ -1,0 +1,77 @@
+<app-sidebar></app-sidebar>
+<div class="border-bottom pt-5 mt-2 mb-5">
+  <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
+  <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+    <p class="text-muted">
+      Este módulo lista todos los productos de la tienda.
+    </p>
+    <p class="font-size-sm font-weight-medium pl-md-4">
+      <a class="text-nowrap" routerLink="/dashboard/productos" rel="noopener">
+        Regresar<i class="cxi-angle-right font-size-base align-middle ml-1"></i>
+      </a>
+    </p>
+  </div>
+</div>
+
+<div class="card box-shadow-sm">
+  <div class="card-header">
+    <h5 style="margin-bottom: 0px">
+      Inventario del Producto {{ product.title }}
+    </h5>
+  </div>
+  <div class="card-header"></div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr class="thead-dark">
+            <th>#</th>
+            <th>Admin</th>
+            <th>Cantidad</th>
+            <th>Proveedor</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="loading" >
+            <td class="text-center" colspan="8">
+              <ngx-skeleton-loader count="5" appearance="line" [theme]="{height: '40px'}" ></ngx-skeleton-loader>
+            </td>
+        </tbody>
+        <tbody *ngIf="!loading">
+        <tr *ngFor="let product of inventory | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+            <th>{{i+1}}</th>
+            <td>
+              {{product.admin.first_name}} <br/> 
+              {{product.admin.last_name}}
+            </td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.supplier}}</td>
+            <td>
+              <button class="btn btn-danger btn-sm"><i class="cxi-delete" data-toggle="modal" [attr.data-target]="'#delete-'+product._id"></i></button>
+              <div class="modal fade" id="delete-{{product._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Eliminar registro</h4>
+                      <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Desea eliminar este registro ?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
+                      <button class="btn btn-primary btn-sm" type="button" (click)="eliminar(product._id)" >Sí, eliminar!</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
