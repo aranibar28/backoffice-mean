@@ -11,17 +11,21 @@ declare var $: any;
   templateUrl: './inventory-product.component.html',
 })
 export class InventoryProductComponent implements OnInit {
-  public product: any = {};
-  public inventory: Array<any> = [];
-  public id: any;
   public loading: boolean = false;
+  public inventories: Array<any> = [];
+  public inventory: any = {};
+  public product: any = {};
+  public uid: any;
   public p: number = 1;
+  public id: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private productService: ProductService,
     private router: Router
-  ) {}
+  ) {
+    this.uid = localStorage.getItem('id');
+  }
 
   ngOnInit(): void {
     this.list_inventory_product();
@@ -39,8 +43,7 @@ export class InventoryProductComponent implements OnInit {
               .list_inventory_product(this.product._id)
               .subscribe({
                 next: (res) => {
-                  console.log(res);
-                  this.inventory = res.data;
+                  this.inventories = res.data;
                 },
                 error: (err) => console.log(err),
               });
@@ -65,12 +68,47 @@ export class InventoryProductComponent implements OnInit {
         this.productService.list_inventory_product(this.product._id).subscribe({
           next: (res) => {
             console.log(res);
-            this.inventory = res.data;
+            this.inventories = res.data;
           },
           error: (err) => console.log(err),
         });
       },
       error: (err) => console.log(err),
     });
+  }
+
+  registerInventory(inventoryForm: any) {
+    if (inventoryForm.valid) {
+      let data = {
+        product: this.product._id,
+        quantity: inventoryForm.value.quantity,
+        supplier: inventoryForm.value.supplier,
+        admin: this.uid,
+      };
+      this.productService.register_inventory_product(data).subscribe({
+        next: (res) => {
+          iziToast.success({
+            title: 'OK',
+            message: 'Se registro correctamente!',
+          });
+          this.productService
+            .list_inventory_product(this.product._id)
+            .subscribe({
+              next: (res) => {
+                this.inventories = res.data;
+              },
+              error: (err) => console.log(err),
+            });
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    } else {
+      iziToast.error({
+        title: 'Error!',
+        message: 'Los datos del formulario no son válidos',
+      });
+    }
   }
 }

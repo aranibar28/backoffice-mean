@@ -75,4 +75,9 @@ export class ProductService {
     const url = `${base_url}/delete_inventory_product/${id}`;
     return this.http.delete(url, this.headers);
   }
+
+  register_inventory_product(data: any): Observable<any> {
+    const url = `${base_url}/register_inventory_product`;
+    return this.http.post(url, data, this.headers);
+  }
 }

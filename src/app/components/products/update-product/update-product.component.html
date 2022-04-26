@@ -1,132 +1,133 @@
 <app-sidebar></app-sidebar>
 
-<div class="border-bottom pt-5 mt-2 mb-5">
-  <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
-  <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-    <p class="text-muted">
-      Este módulo lista todos los productos de la tienda.
-    </p>
-  </div>
+<div class="pt-5 mt-2 mb-4">
+   <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
+   <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">Este módulo lista todos los productos de la tienda.</p>
+   </div>
 </div>
 
-<form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
-  <div class="card box-shadow-sm">
-    <div class="card-header">
-      <h5 style="margin-bottom: 0px">Actualizar producto</h5>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-lg-8">
-          <div class="row">
-            <div class="col-lg-12 form-group">
-              <label for="">Titulo de producto</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Titulo de producto"
-                required
-                name="title"
-                [(ngModel)]="product.title"
-              />
-            </div>
-            <div class="col-lg-4 form-group">
-              <label for="">Stock</label>
-              <input
-                type="number"
-                class="form-control"
-                placeholder="Cantidad inicial"
-                required
-                name="stock"
-                [(ngModel)]="product.stock"
-              />
-            </div>
-            <div class="col-lg-4 form-group">
-              <label for="">Precio</label>
-              <input
-                type="number"
-                class="form-control"
-                placeholder="Precio"
-                required
-                name="price"
-                [(ngModel)]="product.price"
-              />
-            </div>
-            <div class="col-lg-4 form-group">
-              <label for="">Categoría</label>
-              <select
-                class="form-control custom-select"
-                id="select-input"
-                required
-                name="category"
-                [(ngModel)]="product.category"
-              >
-                <option value="" selected disabled>Seleccionar</option>
-                <option value="Categoria 1">Categoria 1</option>
-                <option value="Categoria 2">Categoria 2</option>
-                <option value="Categoria 3">Categoria 3</option>
-              </select>
-            </div>
-
-            <div class="col-lg-12 form-group">
-              <label for="">Descripción corta</label>
-              <textarea
-                class="form-control"
-                placeholder="Titulo de producto"
-                required
-                rows="5"
-                name="description"
-                [(ngModel)]="product.description"
-              ></textarea>
-            </div>
-
-            <div class="col-lg-12 form-group">
-              <tinymce
-                [config]="config"
-                name="container"
-                [(ngModel)]="product.container"
-              ></tinymce>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="row">
-            <div class="col-lg-12 form-group">
-              <label for="">Portada</label>
-              <div class="custom-file">
-                <input
-                  class="custom-file-input"
-                  type="file"
-                  id="file-input"
-                  (change)="fileChanged($event)"
-                />
-                <label
-                  class="custom-file-label"
-                  id="input-portada"
-                  for="file-input"
-                  style="white-space: nowrap; overflow: hidden"
-                >
-                  Seleccionar imagen
-                </label>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <img
-                [src]="imgSelected"
-                class="img-thumbnail"
-                alt="Rounded image"
-              />
-            </div>
-          </div>
-        </div>
+<div class="card box-shadow-sm">
+   <div class="card-header">
+      <h5 style="margin-bottom: 0px">Actualizar Producto</h5>
+   </div>
+   <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+   <div *ngIf="load_data" class="card-body">
+      <div class="col-12 text-center">
+         <ngx-skeleton-loader count="4" appearance="line" [theme]="{height: '50px'}" ></ngx-skeleton-loader>
       </div>
-    </div>
-    <div class="card-footer">
-      <button *ngIf="!loading" class="btn btn-primary mr-2" type="submit">Actualizar producto</button>
-      <button *ngIf="loading" type="button" class="btn btn-primary" disabled>
-        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-        Cargando...
+   </div>
+   <div *ngIf="!load_data" class="card-body">
+      <div class="row">
+         <div class="col-lg-8">
+            <div class="row">
+               <div class="col-lg-12 form-group">
+                  <label for="">Titulo de producto</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Titulo de producto"
+                  required
+                  name="title"
+                  [(ngModel)]="product.title"
+                  />
+               </div>
+               <div class="col-lg-4 form-group">
+                  <label for="">Stock</label>
+                  <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Cantidad inicial"
+                  required
+                  name="stock"
+                  [(ngModel)]="product.stock"
+                  />
+               </div>
+               <div class="col-lg-4 form-group">
+                  <label for="">Precio</label>
+                  <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Precio"
+                  required
+                  name="price"
+                  [(ngModel)]="product.price"
+                  />
+               </div>
+               <div class="col-lg-4 form-group">
+                  <label for="">Categoría</label>
+                  <select
+                  class="form-control custom-select"
+                  id="select-input"
+                  required
+                  name="category"
+                  [(ngModel)]="product.category"
+                  >
+                  <option value="" selected disabled>Seleccionar</option>
+                  <option value="Categoria 1">Categoria 1</option>
+                  <option value="Categoria 2">Categoria 2</option>
+                  <option value="Categoria 3">Categoria 3</option>
+                  </select>
+               </div>
+               <div class="col-lg-12 form-group">
+                  <label for="">Descripción corta</label>
+                  <textarea
+                  class="form-control"
+                  placeholder="Titulo de producto"
+                  required
+                  rows="5"
+                  name="description"
+                  [(ngModel)]="product.description"
+                  ></textarea>
+               </div>
+               <div class="col-lg-12 form-group">
+                  <tinymce
+                  [config]="config"
+                  name="container"
+                  [(ngModel)]="product.container"
+                  ></tinymce>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-4">
+            <div class="row">
+               <div class="col-lg-12 form-group">
+                  <label for="">Portada</label>
+                  <div class="custom-file">
+                     <input
+                        class="custom-file-input"
+                        type="file"
+                        id="file-input"
+                        (change)="fileChanged($event)"
+                        />
+                     <label
+                        class="custom-file-label"
+                        id="input-portada"
+                        for="file-input"
+                        style="white-space: nowrap; overflow: hidden"
+                        >
+                     Seleccionar imagen
+                     </label>
+                  </div>
+               </div>
+               <div class="col-lg-12">
+                  <img
+                     [src]="imgSelected"
+                     class="img-thumbnail"
+                     alt="Rounded image"
+                     />
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="card-footer">
+      <button *ngIf="!load_btn" class="btn btn-primary mr-2" type="submit">Actualizar Producto</button>
+      <button *ngIf="load_btn" type="button" class="btn btn-primary" disabled>
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Cargando...
       </button>
       <a routerLink="/dashboard/productos" class="btn btn-warning">Regresar</a>
-    </div>
-  </div>
-</form>
+   </div>
+  </form>
+</div>

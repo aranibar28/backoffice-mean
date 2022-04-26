@@ -1,11 +1,11 @@
 <app-sidebar></app-sidebar>
 
 <div class="pt-5 mt-2 mb-4">
-    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Cupones</h1>
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-       <p class="text-muted">Este módulo lista todos los productos de la tienda.</p>
+       <p class="text-muted">Este módulo lista todos los cupones de la tienda.</p>
        <p class="font-size-sm font-weight-medium pl-md-4">
-          <a class="text-nowrap" routerLink="/dashboard/productos/registro" rel="noopener">
+          <a class="text-nowrap" routerLink="/dashboard/cupones/registro" rel="noopener">
           Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i>
           </a>
        </p>
@@ -15,7 +15,7 @@
 <div class="card box-shadow-sm">
    <div class="card-header">
       <div class="input-group">
-         <input name="word" (keyup)="filter()" [(ngModel)]="word"  class="form-control" type="text" placeholder="Buscar producto">
+         <input name="word" (keyup)="filter()" [(ngModel)]="word"  class="form-control" type="text" placeholder="Buscar cupón">
       </div>
    </div>
    <div class="card-body">
@@ -24,53 +24,47 @@
             <thead>
                <tr class="thead-dark">
                   <th>#</th>
-                  <th>Titulo</th>
-                  <th>Stock</th>
-                  <th>Precio</th>
-                  <th>Categoria</th>
-                  <th>Num Ventas</th>
+                  <th>Código</th>
+                  <th>Tipo</th>
+                  <th>Valor</th>
+                  <th>Límite</th>
                   <th>Opciones</th>
                </tr>
             </thead>
-            <tbody *ngIf="this.products.length === 0">
-                <td class="text-center text-warning" colspan="6">No hay resultados.</td>
-             </tbody>
+            <tbody *ngIf="this.coupons.length === 0">
+               <td class="text-center text-warning" colspan="6">No hay resultados.</td>
+            </tbody>
             <tbody *ngIf="load_data" >
-               <td class="text-center" colspan="8">
+               <td class="text-center" colspan="6">
                   <ngx-skeleton-loader count="4" appearance="line" [theme]="{height: '40px'}" ></ngx-skeleton-loader>
                </td>
             </tbody>
             <tbody *ngIf="!load_data">
-               <tr *ngFor="let item of products | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
-                  <th>{{i+1}}</th>
-                  <td>
-                     <img style="width: 50px;" [src]="url + '/get_banner/' +item.banner" class="img-thumbnail rounded-0" [alt]="item.title">
-                     <h6 style="margin-bottom: 0px;">{{item.title}}</h6>
-                  </td>
-                  <td>{{item.stock}}</td>
-                  <td>{{item.price}}</td>
-                  <td>{{item.category}}</td>
-                  <td>{{item.num_sales}}</td>
+               <tr *ngFor="let item of coupons | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+                  <td>{{i+1}}</td>
+                  <td>{{item.code}}</td>
+                  <td>{{item.type}}</td>
+                  <td>{{item.value}}</td>
+                  <td>{{item.limit}} restantes</td>
                   <td>
                      <div class="btn-group dropdown">
                         <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Opciones
                         </button>
                         <div class="dropdown-menu">
-                           <a [routerLink]="['/dashboard/itemo', item._id]" class="dropdown-item">Editar</a>
+                           <a [routerLink]="['/dashboard/cupones', item._id]" class="dropdown-item">Editar</a>
                            <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" [attr.data-target]="'#delete-'+item._id">Eliminar</a>
-                           <a [routerLink]="['/dashboard/producto/inventario', item._id]" class="dropdown-item">Inventario</a>
                         </div>
                      </div>
                      <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                            <div class="modal-content">
                               <div class="modal-header">
-                                 <h4 class="modal-title">Eliminar Producto</h4>
+                                 <h4 class="modal-title">Eliminar Cupón</h4>
                                  <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
                               </div>
                               <div class="modal-body">
-                                 <p>Eliminar el producto {{item.title}}</p>
+                                 <p>Eliminar el cupón {{item.code}}</p>
                               </div>
                               <div class="modal-footer">
                                  <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>

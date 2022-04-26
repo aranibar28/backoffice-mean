@@ -12,18 +12,10 @@ declare var iziToast: any;
 export class LoginComponent implements OnInit {
   public user: any = {};
   public usuario: any = {};
-  public token: any = '';
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.token = this.authService.getToken();
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {
-    if (this.token) {
-      this.router.navigateByUrl('/');
-    } else {
-    }
-  }
+  ngOnInit(): void {}
 
   login(loginForm: any) {
     if (loginForm.valid) {
@@ -39,24 +31,16 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('id', res.data._id);
           this.router.navigateByUrl('/');
         },
-        error: (err) => {
-          iziToast.show({
+        error: () => {
+          iziToast.error({
             title: 'Error!',
-            titleColor: '#FF0000',
-            color: '#FFF',
-            class: 'text-danger',
-            position: 'topRight',
-            message: err.error.msg,
+            message: 'Los datos del formulario no son válidos',
           });
         },
       });
     } else {
-      iziToast.show({
+      iziToast.error({
         title: 'Error!',
-        titleColor: '#FF0000',
-        color: '#FFF',
-        class: 'text-danger',
-        position: 'topRight',
         message: 'Los datos del formulario no son válidos',
       });
     }

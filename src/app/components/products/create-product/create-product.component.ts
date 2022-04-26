@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
-
+import { Router } from '@angular/router';
 declare var iziToast: any;
 declare var jQuery: any;
 declare var $: any;
@@ -11,18 +10,14 @@ declare var $: any;
   templateUrl: './create-product.component.html',
 })
 export class CreateProductComponent implements OnInit {
-  public product: any = {
-    category: '',
-  };
+  public product: any = { category: '' };
+  public load_btn: boolean = false;
   public file: File | undefined;
   public imgSelected: any | ArrayBuffer = '/assets/img/01.jpg';
   public config: any = {};
-  public loading: boolean = false;
 
   constructor(private productService: ProductService, private router: Router) {
-    this.config = {
-      height: 500,
-    };
+    this.config = { height: 500 };
   }
 
   ngOnInit(): void {}
@@ -35,7 +30,7 @@ export class CreateProductComponent implements OnInit {
           message: 'Debe subir una portada',
         });
       } else {
-        this.loading = true;
+        this.load_btn = true;
         this.productService
           .register_product(this.product, this.file)
           .subscribe({
@@ -44,12 +39,12 @@ export class CreateProductComponent implements OnInit {
                 title: 'OK',
                 message: 'Se registro correctamente!',
               });
-              this.loading = false;
+              this.load_btn = false;
               this.router.navigateByUrl('/dashboard/productos');
             },
             error: (err) => {
               console.log(err);
-              this.loading = false;
+              this.load_btn = false;
             },
           });
       }
@@ -58,7 +53,7 @@ export class CreateProductComponent implements OnInit {
         title: 'Error!',
         message: 'Los datos del formulario no son válidos',
       });
-      this.loading = false;
+      this.load_btn = false;
       $('#input-portada').text('Seleccionar imagen');
       this.imgSelected = '/assets/img/01.jpg';
       this.file = undefined;

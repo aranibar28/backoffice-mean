@@ -11,10 +11,11 @@ declare var $: any;
 })
 export class IndexCustomerComponent implements OnInit {
   public customers: Array<any> = [];
-  public filter_name: string = '';
+  public filter_firt_name: string = '';
+  public filter_last_name: string = '';
   public filter_email: string = '';
+  public load_data: boolean = true;
   public p: number = 1;
-  public loading: boolean = true;
 
   constructor(private customerService: CustomerService) {}
 
@@ -26,7 +27,7 @@ export class IndexCustomerComponent implements OnInit {
     this.customerService.list_customers(null, null).subscribe({
       next: (res) => {
         this.customers = res.data;
-        this.loading = false;
+        this.load_data = false;
       },
       error: (err) => console.log(err),
     });
@@ -34,19 +35,20 @@ export class IndexCustomerComponent implements OnInit {
 
   filter(type: any) {
     var filter;
-    type === 'last_name' && (filter = this.filter_name);
+    type === 'first_name' && (filter = this.filter_firt_name);
+    type === 'last_name' && (filter = this.filter_last_name);
     type === 'email' && (filter = this.filter_email);
-    this.loading = true;
+
     this.customerService.list_customers(type, filter).subscribe({
       next: (res) => {
         this.customers = res.data;
-        this.loading = false;
+        this.load_data = false;
       },
       error: (err) => console.log(err),
     });
   }
 
-  eliminar(id: any) {
+  delete_data(id: any) {
     this.customerService.delete_customer_admin(id).subscribe({
       next: () => {
         iziToast.success({

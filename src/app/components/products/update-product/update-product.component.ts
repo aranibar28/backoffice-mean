@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
 import { environment } from 'src/environments/environment';
-
-declare var iziToast: any;
 const base_url = environment.url;
+declare var iziToast: any;
 declare var jQuery: any;
 declare var $: any;
 
@@ -13,24 +12,27 @@ declare var $: any;
   templateUrl: './update-product.component.html',
 })
 export class UpdateProductComponent implements OnInit {
+  public load_data: boolean = false;
+  public load_btn: boolean = false;
   public product: any = {};
   public config: any = {};
   public file: File | undefined;
   public imgSelected: any | ArrayBuffer = '/assets/img/01.jpg';
-  public loading: boolean = false;
   public id: any;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private productService: ProductService,
+    private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
-    this.config = {
-      height: 500,
-    };
+    this.config = { height: 500 };
   }
 
   ngOnInit(): void {
+    this.init_data();
+  }
+
+  init_data() {
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
       this.productService.list_product_by_id(this.id).subscribe({
@@ -38,7 +40,7 @@ export class UpdateProductComponent implements OnInit {
           if (res.data != undefined) {
             this.product = res.data;
             this.imgSelected = `${base_url}/get_banner/${this.product.banner}`;
-            this.loading = false;
+            this.load_data = false;
           } else {
             this.router.navigateByUrl('/dashboard/productos');
           }
@@ -62,23 +64,23 @@ export class UpdateProductComponent implements OnInit {
       data.description = this.product.description;
       data.container = this.product.container;
 
-      this.loading = true;
+      this.load_btn = true;
       this.productService.update_product(data, this.id).subscribe({
         next: () => {
           iziToast.success({
             title: 'OK',
             message: 'Se actualizó correctamente!',
           });
-          this.loading = false;
+          this.load_btn = false;
           this.router.navigateByUrl('/dashboard/productos');
         },
         error: (err) => {
-          this.loading = false;
+          this.load_btn = false;
           console.log(err);
         },
       });
     } else {
-      this.loading = false;
+      this.load_btn = false;
       iziToast.error({
         title: 'Error!',
         message: 'Los datos del formulario no son válidos',

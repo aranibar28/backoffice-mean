@@ -11,13 +11,16 @@ import { LoginComponent } from './auth/login/login.component';
 import { IndexCustomerComponent } from './components/customers/index-customer/index-customer.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CreateCustomerComponent } from './components/customers/create-customer/create-customer.component';
-import { EditCustomerComponent } from './components/customers/edit-customer/edit-customer.component';
+import { UpdateCustomerComponent } from './components/customers/update-customer/update-customer.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CreateProductComponent } from './components/products/create-product/create-product.component';
 import { NgxTinymceModule } from 'ngx-tinymce';
 import { IndexProductComponent } from './components/products/index-product/index-product.component';
 import { UpdateProductComponent } from './components/products/update-product/update-product.component';
 import { InventoryProductComponent } from './components/products/inventory-product/inventory-product.component';
+import { CreateCouponComponent } from './components/coupons/create-coupon/create-coupon.component';
+import { IndexCouponComponent } from './components/coupons/index-coupon/index-coupon.component';
+import { UpdateCouponComponent } from './components/coupons/update-coupon/update-coupon.component';
 
 @NgModule({
   declarations: [
@@ -27,11 +30,14 @@ import { InventoryProductComponent } from './components/products/inventory-produ
     LoginComponent,
     IndexCustomerComponent,
     CreateCustomerComponent,
-    EditCustomerComponent,
+    UpdateCustomerComponent,
     CreateProductComponent,
     IndexProductComponent,
     UpdateProductComponent,
     InventoryProductComponent,
+    CreateCouponComponent,
+    IndexCouponComponent,
+    UpdateCouponComponent,
   ],
   imports: [
     BrowserModule,

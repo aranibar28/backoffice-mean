@@ -1,90 +1,85 @@
 <app-sidebar></app-sidebar>
-<div class="border-bottom pt-5 mt-2 mb-5">
+
+<div class="pt-5 mt-2 mb-4">
     <h1 class="mt-2 mt-md-4 mb-3 pt-5">Clientes</h1>
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-        <p class="text-muted">Este módulo lista todos los clientes de la tienda.</p>
-        <p class="font-size-sm font-weight-medium pl-md-4">
-            <a class="text-nowrap" routerLink="/dashboard/clientes/registro" rel="noopener">
-                Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i>
-            </a>
-        </p>
+       <p class="text-muted pb-0">Este módulo lista todos los clientes de la tienda.</p>
+       <p class="font-size-sm font-weight-medium pb-0 pl-md-4">
+          <a class="text-nowrap" routerLink="/dashboard/clientes/registro" rel="noopener">
+          Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i>
+          </a>
+       </p>
     </div>
-</div>
+ </div>
 
 <div class="card box-shadow-sm">
-    <div class="card-header">
-        <h5 style="margin-bottom: 0px;">Filtro de clientes</h5>
-    </div>
-    <div class="card-header">
-        <form class="form-inline pt-2">
-            <label class="sr-only" for="inline-form-input-name">Apellidos</label>
-            <input name="filter_name" (keyup)="filter('last_name')" [(ngModel)]="filter_name" class="form-control mb-3 mr-sm-4" type="text" placeholder="Apellidos">
-            <label class="sr-only" for="inline-form-input-username">Correo</label>
-            <div class="input-group mb-3 mr-sm-4">
-            <div class="input-group-prepend">
-                <div class="input-group-text">@</div>
-            </div>
-            <input name="filter_email" (keyup)="filter('email')" [(ngModel)]="filter_email" class="form-control" type="text" placeholder="Email">
-            </div>
-        </form>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                <tr class="thead-dark">
-                    <th>#</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Correo</th>
-                    <th>Opciones</th>
-                </tr>
-                </thead>
-                <tbody *ngIf="loading" >
-                    <td class="text-center" colspan="5">
-                     <ngx-skeleton-loader count="5" appearance="line" [theme]="{height: '40px'}" ></ngx-skeleton-loader>
-                    </td>
-                </tbody>
-                <tbody *ngIf="!loading">
-                <tr *ngFor="let customer of customers | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
-                    <th>{{i+1}}</th>
-                    <td>{{customer.first_name}}</td>
-                    <td>{{customer.last_name}}</td>
-                    <td>{{customer.email}}</td>
-                    <td>
-                    <div class="btn-group dropdown">
+   <div class="card-header">
+      <form class="form-inline">
+         <input name="filter_firt_name" (keyup)="filter('first_name')" [(ngModel)]="filter_firt_name" class="form-control mr-sm-4" type="text" placeholder="Nombres">
+         <input name="filter_last_name" (keyup)="filter('last_name')" [(ngModel)]="filter_last_name" class="form-control mr-sm-4" type="text" placeholder="Apellidos">
+         <input name="filter_email" (keyup)="filter('email')" [(ngModel)]="filter_email" class="form-control" type="text" placeholder="Email">
+      </form>
+   </div>
+   <div class="card-body">
+      <div class="table-responsive">
+         <table class="table table-bordered">
+            <thead>
+               <tr class="thead-dark">
+                  <th>#</th>
+                  <th>Nombres</th>
+                  <th>Apellidos</th>
+                  <th>Correo</th>
+                  <th>Opciones</th>
+               </tr>
+            </thead>
+            <tbody *ngIf="this.customers.length === 0">
+                <td class="text-center text-warning" colspan="6">No hay resultados.</td>
+             </tbody>
+            <tbody *ngIf="load_data" >
+               <td class="text-center" colspan="5">
+                  <ngx-skeleton-loader count="4" appearance="line" [theme]="{height: '40px'}" ></ngx-skeleton-loader>
+               </td>
+            </tbody>
+            <tbody *ngIf="!load_data">
+               <tr *ngFor="let item of customers | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+                  <th>{{i+1}}</th>
+                  <td>{{item.first_name}}</td>
+                  <td>{{item.last_name}}</td>
+                  <td>{{item.email}}</td>
+                  <td>
+                     <div class="btn-group dropdown">
                         <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Opciones
+                        Opciones
                         </button>
                         <div class="dropdown-menu">
-                            <a [routerLink]="['/dashboard/cliente', customer._id]" class="dropdown-item">Editar</a>
-                            <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" [attr.data-target]="'#delete-'+customer._id">Eliminar</a>
+                           <a [routerLink]="['/dashboard/cliente', item._id]" class="dropdown-item">Editar</a>
+                           <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" [attr.data-target]="'#delete-'+item._id">Eliminar</a>
                         </div>
-                    </div>
-                    <div class="modal fade" id="delete-{{customer._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
+                     </div>
+                     <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h4 class="modal-title">Eliminar Cliente</h4>
-                              <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                            </div>
-                            <div class="modal-body">
-                              <p>Eliminar el cliente {{customer.first_name}} {{customer.last_name}}</p>
-                            </div>
-                            <div class="modal-footer">
-                              <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
-                              <button class="btn btn-primary btn-sm" type="button" (click)="eliminar(customer._id)" >Sí, eliminar!</button>
-                            </div>
-                          </div>
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                 <h4 class="modal-title">Eliminar Cliente</h4>
+                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                              </div>
+                              <div class="modal-body">
+                                 <p>Eliminar el cliente {{item.first_name}} {{item.last_name}}</p>
+                              </div>
+                              <div class="modal-footer">
+                                 <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
+                                 <button class="btn btn-primary btn-sm" type="button" (click)="delete_data(item._id)" >Sí, eliminar!</button>
+                              </div>
+                           </div>
                         </div>
-                      </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="card-footer">
-        <pagination-controls (pageChange)="p = $event"></pagination-controls>
-    </div>
-</div>    
+                     </div>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+   <div class="card-footer">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+   </div>
+</div>

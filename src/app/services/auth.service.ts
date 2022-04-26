@@ -3,34 +3,35 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+const base_url = environment.url;
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  public url: string = '';
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-    this.url = environment.url;
+  get token(): string {
+    return localStorage.getItem('token') || '';
   }
+
+  get headers() {
+    return { headers: { token: this.token } };
+  }
+
 
   login_admin(data: any): Observable<any> {
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(this.url + 'login_admin', data, { headers });
-  }
-
-  getToken() {
-    return localStorage.getItem('token');
+    const url = `${base_url}/login_admin/`;
+    return this.http.post(url, data, this.headers);
   }
 
   public isAuthenticated(allowRoles: string[]): boolean {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    if (!this.token) {
       return false;
     }
     try {
       const helper = new JwtHelperService();
-      var decodedToken = helper.decodeToken(token!);
+      var decodedToken = helper.decodeToken(this.token!);
       if (!decodedToken) {
         localStorage.removeItem('token');
       }

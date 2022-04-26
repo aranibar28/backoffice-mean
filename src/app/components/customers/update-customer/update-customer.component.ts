@@ -4,12 +4,12 @@ import { CustomerService } from 'src/app/services/customer.service';
 declare var iziToast: any;
 
 @Component({
-  selector: 'app-edit-customer',
-  templateUrl: './edit-customer.component.html',
+  selector: 'app-update-customer',
+  templateUrl: './update-customer.component.html',
 })
-export class EditCustomerComponent implements OnInit {
-  public loading: boolean = false;
+export class UpdateCustomerComponent implements OnInit {
   public load_data: boolean = true;
+  public load_btn: boolean = false;
   public customer: any = {};
   public id: any;
 
@@ -18,7 +18,12 @@ export class EditCustomerComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {}
+
   ngOnInit(): void {
+    this.init_data();
+  }
+
+  init_data() {
     this.activatedRoute.params.subscribe((params) => {
       this.id = params['id'];
       this.customerService.list_customer_by_id(this.id).subscribe({
@@ -37,7 +42,7 @@ export class EditCustomerComponent implements OnInit {
 
   update(updateForm: any) {
     if (updateForm.valid) {
-      this.loading = true;
+      this.load_btn = true;
       this.customerService
         .update_customer_admin(this.id, this.customer)
         .subscribe({
@@ -46,14 +51,12 @@ export class EditCustomerComponent implements OnInit {
               title: 'OK',
               message: 'Se actualizó correctamente!',
             });
-            this.loading = false;
+            this.load_btn = false;
             this.router.navigateByUrl('/dashboard/clientes');
           },
           error: (err) => {
-            iziToast.error({
-              title: 'Error!',
-              message: err.error.msg,
-            });
+            this.load_btn = false;
+            console.log(err);
           },
         });
     } else {

@@ -19,7 +19,19 @@
       Inventario del Producto {{ product.title }}
     </h5>
   </div>
-  <div class="card-header"></div>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-12">
+        <form #inventoryForm="ngForm" (ngSubmit)="registerInventory(inventoryForm)" class="form-inline">
+          <label class="sr-only">Cantidad</label>
+          <input name="quantity" [(ngModel)]="inventory.quantity" class="form-control mb-3 mr-sm-4" type="text" placeholder="Cantidad" required  />
+          <label class="sr-only">Proveedor</label>
+          <input name="supplier" [(ngModel)]="inventory.supplier" class="form-control mb-3 mr-sm-4" type="text" placeholder="Proveedor" required  />
+          <button class="btn btn-primary mb-3" type="submit">Ingresar</button>
+        </form>
+      </div>
+    </div>
+  </div>
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered">
@@ -38,7 +50,7 @@
             </td>
         </tbody>
         <tbody *ngIf="!loading">
-        <tr *ngFor="let product of inventory | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+        <tr *ngFor="let product of inventories | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
             <th>{{i+1}}</th>
             <td>
               {{product.admin.first_name}} <br/> 
