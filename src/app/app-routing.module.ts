@@ -13,6 +13,8 @@ import { IndexProductComponent } from './components/products/index-product/index
 import { InventoryProductComponent } from './components/products/inventory-product/inventory-product.component';
 import { UpdateProductComponent } from './components/products/update-product/update-product.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ConfigsComponent } from './components/configs/configs.component';
+import { VarietyProductComponent } from './components/products/variety-product/variety-product.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent, canActivate: [AuthGuard] },
@@ -29,11 +31,13 @@ const routes: Routes = [
       { path: 'productos/registro',component: CreateProductComponent, canActivate: [AuthGuard] },
       { path: 'producto/:id',component: UpdateProductComponent, canActivate: [AuthGuard] },
       { path: 'producto/inventario/:id',component: InventoryProductComponent, canActivate: [AuthGuard] },
+      { path: 'producto/variedades/:id',component: VarietyProductComponent, canActivate: [AuthGuard] },
 
       { path: 'cupones',component: IndexCouponComponent, canActivate: [AuthGuard] },
       { path: 'cupones/registro',component: CreateCouponComponent, canActivate: [AuthGuard] },
       { path: 'cupones/:id',component: UpdateCouponComponent, canActivate: [AuthGuard] },
 
+      { path: 'configuracion',component: ConfigsComponent, canActivate: [AuthGuard] },
       { path: '', redirectTo: 'clientes', pathMatch: 'full' },
     ],
   },

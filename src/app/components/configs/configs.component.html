@@ -1,0 +1,116 @@
+<app-sidebar></app-sidebar>
+
+<div class="pt-5 mt-2 mb-4">
+  <h1 class="mt-2 mt-md-4 mb-3 pt-5">Configuraciones</h1>
+  <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+    <p class="text-muted">
+      Este módulo se estableve las configuraciones de la tineda.
+    </p>
+  </div>
+</div>
+
+<div class="card box-shadow-sm">
+  <div class="card-header">
+    <h5 style="margin-bottom: 0px">Configuraciones</h5>
+  </div>
+  <form #registerForm="ngForm" (ngSubmit)="update_category(registerForm)">
+    <div class="card-body">
+      <div style="max-width: 48rem">
+        <div class="form-group row align-items-center">
+          <label class="col-md-3 col-form-label font-weight-medium">
+            Nombre de la tienda
+          </label>
+          <div class="col-md-9">
+            <input
+              class="form-control"
+              type="text"
+              required
+              name="title"
+              [(ngModel)]="config.title"
+            />
+          </div>
+        </div>
+        <div class="form-group row align-items-center">
+          <label class="col-md-3 col-form-label font-weight-medium">
+            Facturación
+          </label>
+          <div class="col-md-4">
+            <input
+              class="form-control"
+              type="number"
+              required
+              name="serie"
+              [(ngModel)]="config.serie"
+            />
+          </div>
+          <div class="col-md-5">
+            <input
+              class="form-control"
+              type="number"
+              required
+              name="correlative"
+              [(ngModel)]="config.correlative"
+            />
+          </div>
+        </div>
+        <div class="form-group row align-items-center">
+          <label class="col-md-3 col-form-label font-weight-medium">
+            Categorías
+          </label>
+          <div class="col-md-4">
+            <input name="name" [(ngModel)]="name" class="form-control" type="text" placeholder="Nombre" />
+          </div>
+          <div class="col-md-5">
+            <input name="icon" [(ngModel)]="icon" class="form-control" type="text" placeholder="Icono" />
+          </div>
+          <div class="col-md-3"></div>
+          <div class="col-md-9">
+            <a (click)="add_category()" class="mb-5">Agregar</a>
+            <div class="table-responsive mt-3">
+              <table *ngIf="config.categories" class="table table-sm">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Categoria</th>
+                    <th>Icono</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="config.categories.length === 0">
+                  <tr>
+                    <td class="text-center text-warning" colspan="3">
+                      No hay categorias disponibles
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="config.categories.length >= 1">
+                  <tr *ngFor="let item of config.categories; let i = index">
+                    <td>{{ item.name }}</td>
+                    <td><i [class]="item.icon"></i> {{ item.icon }}</td>
+                    <td><a (click)="delete_category(i)" class="text-danger">Eliminar</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row align-items-center">
+          <label class="col-md-3 col-form-label font-weight-medium"></label>
+          <div class="col-md-9">
+            <div class="cs-file-drop-area">
+              <div class="cs-file-drop-preview img-thumbnail rounded">
+                <img [src]="imgSelected" alt="">
+              </div>
+              <!-- <div class="cs-file-drop-icon cxi-upload"></div> -->
+              <span class="cs-file-drop-message">Arrastre una imagen</span>
+              <input (change)="fileChanged($event)" type="file" class="cs-file-drop-input">
+              <button type="button" id="file-input" class="cs-file-drop-btn btn btn-outline-primary btn-sm">Subir imagén</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary mr-3">Guardar cambios</button>
+    </div>
+  </form>
+</div>

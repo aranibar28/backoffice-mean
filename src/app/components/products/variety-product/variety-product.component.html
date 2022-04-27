@@ -1,0 +1,98 @@
+<app-sidebar></app-sidebar>
+
+<div class="pt-5 mt-2 mb-4">
+  <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
+  <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+    <p class="text-muted">
+      Este módulo se estableve las Productos de la tineda.
+    </p>
+  </div>
+</div>
+
+<div class="card box-shadow-sm">
+  <div class="card-header">
+    <h5 style="margin-bottom: 0px">Variedad de Producto</h5>
+  </div>
+ 
+    <div class="card-body">
+      <div style="max-width: 48rem">
+
+        <div class="row mb-5">
+          <div class="col-md-4" style="padding-right: 0;">
+            <img style="width: 251px" [src]="url + '/get_banner/' +product.banner" class="img-thumbnail rounded-0">
+          </div>
+          <div class="col-md-8" style="padding-left: 0;">
+            <div class="card" style="height: 100% !important">
+              <div class="card-body">
+                <h3 class="card-product-title text-truncate mb-2">
+                  <a class="nav-link mb-3">{{product.title}}</a>
+                  <p class="text-muted">{{product.description}}</p>
+                  <div class="d-flex align-items-center">
+                    <span class="h5 d-inline-block mb-0 text-danger">S/. {{product.price}}</span>
+                  </div>
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row align-items-center">
+            <label class="col-md-3 col-form-label font-weight-medium">Nombre de la Variedad</label>
+            <div class="col-md-9">
+                <input name="name_variety" [(ngModel)]="product.name_variety" type="text" class="form-control" placeholder="Titulo de la variedad" required />
+            </div>
+         </div>
+
+        <div class="form-group row align-items-center">
+          <label class="col-md-3 col-form-label font-weight-medium">Variedades</label>
+          <div class="col-md-9">
+            <div class="input-group">
+                <input name="new_variety" [(ngModel)]="new_variety" class="form-control" type="text" placeholder="Ingrese una variedad">
+                <div class="input-group-append">
+                    <button (click)="add_variety()" class="btn btn-primary" type="button">Agregar</button>
+                </div>
+              </div>
+          </div>
+ 
+          <div class="col-md-3"></div>
+          <div class="col-md-9">
+            <div class="table-responsive mt-3">
+              <table *ngIf="product.item_variety" class="table table-sm">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Categoria</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="product.item_variety.length === 0">
+                  <tr>
+                    <td class="text-center text-warning" colspan="3">
+                      No hay categorias disponibles
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="product.item_variety.length >= 1">
+                  <tr *ngFor="let item of product.item_variety; let i = index">
+                    <td>{{ i + 1 }}</td>
+                   <td>{{ item.name }}</td>
+                   <td><a (click)="delete_variety(i)" class="text-danger">Eliminar</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card-footer">
+      <button *ngIf="!load_btn" (click)="update()" type="button" class="btn btn-primary mr-3">Guardar cambios</button>
+      <button *ngIf="load_btn" class="btn btn-primary mr-2" type="button" disabled>
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" ></span>
+        Guardando...
+      </button>
+      <a routerLink="/dashboard/productos" class="btn btn-warning">Regresar</a>
+    </div>
+
+</div>

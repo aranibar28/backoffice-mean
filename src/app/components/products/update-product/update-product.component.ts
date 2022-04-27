@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProductService } from 'src/app/services/product.service';
 import { environment } from 'src/environments/environment';
+
 const base_url = environment.url;
 declare var iziToast: any;
 declare var jQuery: any;
@@ -12,9 +14,10 @@ declare var $: any;
   templateUrl: './update-product.component.html',
 })
 export class UpdateProductComponent implements OnInit {
-  public load_data: boolean = false;
+  public load_data: boolean = true;
   public load_btn: boolean = false;
   public product: any = {};
+  public categories: any;
   public config: any = {};
   public file: File | undefined;
   public imgSelected: any | ArrayBuffer = '/assets/img/01.jpg';
@@ -22,10 +25,19 @@ export class UpdateProductComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
+    private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
     this.config = { height: 500 };
+    this.authService.get_config_public().subscribe({
+      next: (res) => {
+        this.categories = res.data.categories;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   ngOnInit(): void {

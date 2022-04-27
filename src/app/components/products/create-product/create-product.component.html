@@ -59,9 +59,7 @@
                   [(ngModel)]="product.category"
                   >
                   <option value="" selected disabled>Seleccionar</option>
-                  <option value="Categoria 1">Categoria 1</option>
-                  <option value="Categoria 2">Categoria 2</option>
-                  <option value="Categoria 3">Categoria 3</option>
+                  <option *ngFor="let item of categories" [value]="item.name" >{{item.name}}</option>
                   </select>
                </div>
                <div class="col-lg-12 form-group">

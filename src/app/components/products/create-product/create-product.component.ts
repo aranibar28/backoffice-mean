@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 declare var iziToast: any;
 declare var jQuery: any;
 declare var $: any;
@@ -11,13 +12,26 @@ declare var $: any;
 })
 export class CreateProductComponent implements OnInit {
   public product: any = { category: '' };
+  public categories: any;
   public load_btn: boolean = false;
   public file: File | undefined;
   public imgSelected: any | ArrayBuffer = '/assets/img/01.jpg';
   public config: any = {};
 
-  constructor(private productService: ProductService, private router: Router) {
+  constructor(
+    private productService: ProductService,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.config = { height: 500 };
+    this.authService.get_config_public().subscribe({
+      next: (res) => {
+        this.categories = res.data.categories;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   ngOnInit(): void {}

@@ -19,12 +19,6 @@ export class AuthService {
     return { headers: { token: this.token } };
   }
 
-
-  login_admin(data: any): Observable<any> {
-    const url = `${base_url}/login_admin/`;
-    return this.http.post(url, data, this.headers);
-  }
-
   public isAuthenticated(allowRoles: string[]): boolean {
     if (!this.token) {
       return false;
@@ -40,5 +34,35 @@ export class AuthService {
       return false;
     }
     return allowRoles.includes(decodedToken['role']);
+  }
+
+  login_admin(data: any): Observable<any> {
+    const url = `${base_url}/login_admin/`;
+    return this.http.post(url, data, this.headers);
+  }
+
+  get_config_admin(): Observable<any> {
+    const url = `${base_url}/get_config_admin`;
+    return this.http.get(url, this.headers);
+  }
+
+  get_config_public(): Observable<any> {
+    const url = `${base_url}/get_config_public`;
+    return this.http.get(url, this.headers);
+  }
+
+  update_config_admin(id: any, data: any): Observable<any> {
+    const url = `${base_url}/update_config_admin/${id}`;
+    if (data.logo) {
+      const fd = new FormData();
+      fd.append('title', data.title);
+      fd.append('serie', data.serie);
+      fd.append('correlative', data.correlative);
+      fd.append('categories', JSON.stringify(data.categories));
+      fd.append('logo', data.logo);
+      return this.http.put(url, fd, this.headers);
+    } else {
+      return this.http.put(url, data, this.headers);
+    }
   }
 }

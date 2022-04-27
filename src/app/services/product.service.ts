@@ -61,6 +61,11 @@ export class ProductService {
     }
   }
 
+  update_product_variety(data: any, id: any): Observable<any> {
+    const url = `${base_url}/update_product_variety/${id}`;
+    return this.http.put(url, data, this.headers);
+  }
+
   delete_product(id: any): Observable<any> {
     const url = `${base_url}/delete_product/${id}`;
     return this.http.delete(url, this.headers);

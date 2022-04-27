@@ -57,9 +57,10 @@
                         Opciones
                         </button>
                         <div class="dropdown-menu">
-                           <a [routerLink]="['/dashboard/itemo', item._id]" class="dropdown-item">Editar</a>
+                           <a [routerLink]="['/dashboard/producto', item._id]" class="dropdown-item">Editar</a>
                            <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" [attr.data-target]="'#delete-'+item._id">Eliminar</a>
                            <a [routerLink]="['/dashboard/producto/inventario', item._id]" class="dropdown-item">Inventario</a>
+                           <a [routerLink]="['/dashboard/producto/variedades', item._id]" class="dropdown-item">Variedades</a>
                         </div>
                      </div>
                      <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
