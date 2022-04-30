@@ -1,36 +1,33 @@
 <app-sidebar></app-sidebar>
 
-<div class="pt-5 mt-2 mb-4">
-    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
-    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-       <p class="text-muted">Este módulo lista todos los productos de la tienda.</p>
-       <p class="font-size-sm font-weight-medium pl-md-4">
-          <a class="text-nowrap" routerLink="/dashboard/productos/registro" rel="noopener">
-          Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i>
-          </a>
-       </p>
-    </div>
- </div>
-
-<div class="card box-shadow-sm">
+<div class="card box-shadow-sm mt-6">
+   <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
+      <h2 class="mb-0 text-center">Productos</h2>
+      <div>
+         <button (click)="download_excel()" type="button" class="btn btn-success mr-2"><i class="cxi-files mr-1"></i> Exportar Excel</button>
+         <a class="btn btn-info btn-xs ml-2" routerLink="/dashboard/productos/registro" rel="noopener">
+            <i class="cxi-grid mr-1"></i> Registrar
+         </a>
+      </div>
+   </div>
    <div class="card-header">
       <div class="input-group">
          <input (keyup)="filter()" [(ngModel)]="word" name="word" class="form-control" type="text" placeholder="Buscar producto">
-         <button (click)="download_excel()" type="button" class="btn btn-success ml-4"><i class="cxi-files"></i> Exportar Excel</button>
       </div>
    </div>
    <div class="card-body">
       <div class="table-responsive">
-         <table class="table table-bordered">
+         <table class="table table-bordered text-center">
             <thead>
                <tr class="thead-dark">
                   <th>#</th>
+                  <th>Foto</th>
                   <th>Titulo</th>
                   <th>Stock</th>
                   <th>Precio</th>
                   <th>Categoria</th>
                   <th>Num Ventas</th>
-                  <th>Opciones</th>
+                  <th class="w200">Opciones</th>
                </tr>
             </thead>
             
@@ -49,10 +46,8 @@
                <tbody>
                   <tr *ngFor="let item of products | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
                      <th>{{i+1}}</th>
-                     <td>
-                        <img style="width: 50px;" [src]="url + '/get_banner/' +item.banner" class="img-thumbnail rounded-0" [alt]="item.title">
-                        <h6 style="margin-bottom: 0px;">{{item.title}}</h6>
-                     </td>
+                     <td><img style="width: 50px;" [src]="url + '/get_banner/' +item.banner" class="img-thumbnail rounded-0" [alt]="item.title"></td>
+                     <td>{{ item.title }}</td>
                      <td>{{ item.stock }}</td>
                      <td>{{ item.price }}</td>
                      <td>{{ item.category }}</td>

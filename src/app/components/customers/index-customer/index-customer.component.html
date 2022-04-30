@@ -1,10 +1,10 @@
 <app-sidebar></app-sidebar>
 
 <div class="card box-shadow-sm mt-6">
-   <div class="card-header d-flex justify-content-between align-items-center">
-      <h2 class="m-0 p-0">Clientes</h2>
+   <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
+      <h2 class="mb-0 text-center">Clientes</h2>
       <a class="btn btn-info btn-xs ml-2" routerLink="/dashboard/clientes/registro" rel="noopener">
-         <i class="cxi-grid mr-2"></i> Registrar
+         <i class="cxi-grid mr-1"></i> Registrar
       </a>
    </div>
    <div class="card-header">
@@ -61,7 +61,7 @@
                                     <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
                                  </div>
                                  <div class="modal-body text-left">
-                                    <p>Eliminar el cliente {{item.first_name}} {{item.last_name}}</p>
+                                    <p>¿Desea eliminar al cliente <b class="text-danger">{{item.first_name}} {{item.last_name}}</b>?</p>
                                  </div>
                                  <div class="modal-footer">
                                     <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
@@ -74,9 +74,6 @@
                   </tr>
                </tbody>
               </ng-container>
-
-    
-            
          </table>
       </div>
       <pagination-controls previousLabel="Atrás" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>

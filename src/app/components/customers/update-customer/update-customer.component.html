@@ -1,10 +1,10 @@
 <app-sidebar></app-sidebar>
 
 <div class="card box-shadow-sm mt-6">
-   <div class="card-header d-flex  flex-wrap justify-content-between">
-      <h2 style="margin-bottom: 0px">Actualizar Clientes</h2>
-      <a class="btn btn-warning" routerLink="/dashboard/clientes">
-        <i class="cxi-arrow-back mr-2"></i> Regresar
+   <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
+      <h2 class="mb-0 text-center">Actualizar Clientes</h2>
+      <a class="btn btn-warning btn-xs ml-2" routerLink="/dashboard/clientes">
+        <i class="cxi-arrow-back mr-1"></i> Regresar
       </a>
    </div>
    <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">

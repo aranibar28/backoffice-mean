@@ -1,25 +1,19 @@
 <app-sidebar></app-sidebar>
 
-<div class="pt-5 mt-2 mb-4">
-    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Cupones</h1>
-    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-       <p class="text-muted">Este módulo lista todos los cupones de la tienda.</p>
-       <p class="font-size-sm font-weight-medium pl-md-4">
-          <a class="text-nowrap" routerLink="/dashboard/cupones/registro" rel="noopener">
-          Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i>
-          </a>
-       </p>
-    </div>
- </div>
-
-<div class="card box-shadow-sm">
+<div class="card box-shadow-sm mt-6">
+   <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
+      <h2 class="mb-0 text-center">Cupones</h2>
+      <a class="btn btn-info btn-xs ml-2" routerLink="/dashboard/cupones/registro" rel="noopener">
+         <i class="cxi-grid mr-2"></i> Registrar
+      </a>
+   </div>
    <div class="card-header">
       <div class="input-group">
          <input name="word" (keyup)="filter()" [(ngModel)]="word"  class="form-control" type="text" placeholder="Buscar cupón">
       </div>
    </div>
    <div class="card-body">
-      <div class="table-responsive">
+      <div class="table-responsive text-center">
          <table class="table table-bordered">
             <thead>
                <tr class="thead-dark">
@@ -28,7 +22,7 @@
                   <th>Tipo</th>
                   <th>Valor</th>
                   <th>Límite</th>
-                  <th>Opciones</th>
+                  <th class="w200">Opciones</th>
                </tr>
             </thead>
             <tbody *ngIf="this.coupons.length === 0">
