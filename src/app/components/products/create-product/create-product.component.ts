@@ -68,52 +68,50 @@ export class CreateProductComponent implements OnInit {
         message: 'Los datos del formulario no son válidos',
       });
       this.load_btn = false;
-      $('#input-portada').text('Seleccionar imagen');
-      this.imgSelected = '/assets/img/01.jpg';
       this.file = undefined;
+      this.imgSelected = '/assets/img/01.jpg';
+      $('#input-portada').text('Seleccionar imagen');
     }
   }
 
   fileChanged(event: any): void {
-    var file: File;
-    if (event.target.files && event.target.files[0]) {
-      file = <File>event.target.files[0];
+    const file = event.target.files[0];
+    if (!file) {
+      this.file = undefined;
+      this.imgSelected = '/assets/img/01.jpg';
+      $('#input-portada').text('Seleccionar imagen');
     } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'No hay una imagen',
-      });
-    }
-    if (file!.size <= 4000000) {
-      if (
-        file!.type === 'image/png' ||
-        file!.type === 'image/jpg' ||
-        file!.type === 'image/gif' ||
-        file!.type === 'image/jpeg' ||
-        file!.type === 'image/webp'
-      ) {
-        const reader = new FileReader();
-        reader.onload = (e) => (this.imgSelected = reader.result);
-        reader.readAsDataURL(file!);
-        $('#input-portada').text(file!.name);
-        this.file = file!;
+      if (file.size <= 3000000) {
+        if (
+          file.type === 'image/png' ||
+          file.type === 'image/jpg' ||
+          file.type === 'image/gif' ||
+          file.type === 'image/jpeg' ||
+          file.type === 'image/webp'
+        ) {
+          const reader = new FileReader();
+          reader.onload = (e) => (this.imgSelected = reader.result);
+          reader.readAsDataURL(file);
+          $('#input-portada').text(file.name);
+          this.file = file;
+        } else {
+          iziToast.error({
+            title: 'Error!',
+            message: 'El archivo debe ser una imagen',
+          });
+          this.file = undefined;
+          this.imgSelected = '/assets/img/01.jpg';
+          $('#input-portada').text('Seleccionar imagen');
+        }
       } else {
         iziToast.error({
           title: 'Error!',
-          message: 'El archivo debe ser una imagen',
+          message: 'La imagen no puede superar los 4MB',
         });
-        $('#input-portada').text('Seleccionar imagen');
-        this.imgSelected = '/assets/img/01.jpg';
         this.file = undefined;
+        this.imgSelected = '/assets/img/01.jpg';
+        $('#input-portada').text('Seleccionar imagen');
       }
-    } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'La imagen no puede superar los 4MB',
-      });
-      $('#input-portada').text('Seleccionar imagen');
-      this.imgSelected = '/assets/img/01.jpg';
-      this.file = undefined;
     }
   }
 }

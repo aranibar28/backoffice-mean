@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from 'src/app/services/customer.service';
-
 declare var iziToast: any;
-declare var jQuery: any;
 declare var $: any;
 
 @Component({
@@ -20,10 +18,10 @@ export class IndexCustomerComponent implements OnInit {
   constructor(private customerService: CustomerService) {}
 
   ngOnInit(): void {
-    this.list_customers();
+    this.init_data();
   }
 
-  list_customers() {
+  init_data() {
     this.customerService.list_customers(null, null).subscribe({
       next: (res) => {
         this.customers = res.data;
@@ -57,7 +55,7 @@ export class IndexCustomerComponent implements OnInit {
         });
         $('#delete-' + id).modal('hide');
         $('.modal-backdrop').removeClass('show');
-        this.list_customers();
+        this.init_data();
       },
       error: (err) => console.log(err),
     });

@@ -15,7 +15,8 @@
 <div class="card box-shadow-sm">
    <div class="card-header">
       <div class="input-group">
-         <input name="word" (keyup)="filter()" [(ngModel)]="word"  class="form-control" type="text" placeholder="Buscar producto">
+         <input (keyup)="filter()" [(ngModel)]="word" name="word" class="form-control" type="text" placeholder="Buscar producto">
+         <button (click)="download_excel()" type="button" class="btn btn-success ml-4"><i class="cxi-files"></i> Exportar Excel</button>
       </div>
    </div>
    <div class="card-body">
@@ -32,57 +33,64 @@
                   <th>Opciones</th>
                </tr>
             </thead>
-            <tbody *ngIf="this.products.length === 0">
-                <td class="text-center text-warning" colspan="6">No hay resultados.</td>
-             </tbody>
-            <tbody *ngIf="load_data" >
-               <td class="text-center" colspan="8">
-                  <ngx-skeleton-loader count="4" appearance="line" [theme]="{height: '40px'}" ></ngx-skeleton-loader>
-               </td>
-            </tbody>
-            <tbody *ngIf="!load_data">
-               <tr *ngFor="let item of products | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
-                  <th>{{i+1}}</th>
-                  <td>
-                     <img style="width: 50px;" [src]="url + '/get_banner/' +item.banner" class="img-thumbnail rounded-0" [alt]="item.title">
-                     <h6 style="margin-bottom: 0px;">{{item.title}}</h6>
+            
+             <ng-container *ngIf="load_data">
+               <tbody>
+                  <td class="text-center" colspan="8">
+                     <ngx-skeleton-loader count="4" appearance="line" [theme]="{height: '40px'}" ></ngx-skeleton-loader>
                   </td>
-                  <td>{{item.stock}}</td>
-                  <td>{{item.price}}</td>
-                  <td>{{item.category}}</td>
-                  <td>{{item.num_sales}}</td>
-                  <td>
-                     <div class="btn-group dropdown">
-                        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Opciones
-                        </button>
-                        <div class="dropdown-menu">
-                           <a [routerLink]="['/dashboard/producto', item._id]" class="dropdown-item">Editar</a>
-                           <a class="dropdown-item" style="cursor:pointer;" data-toggle="modal" [attr.data-target]="'#delete-'+item._id">Eliminar</a>
-                           <a [routerLink]="['/dashboard/producto/inventario', item._id]" class="dropdown-item">Inventario</a>
-                           <a [routerLink]="['/dashboard/producto/variedades', item._id]" class="dropdown-item">Variedades</a>
+               </tbody>
+             </ng-container>
+
+             <ng-container *ngIf="!load_data">
+               <tbody *ngIf="this.products.length === 0">
+                  <td class="text-center text-warning" colspan="6">No hay resultados.</td>
+               </tbody>
+               <tbody>
+                  <tr *ngFor="let item of products | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+                     <th>{{i+1}}</th>
+                     <td>
+                        <img style="width: 50px;" [src]="url + '/get_banner/' +item.banner" class="img-thumbnail rounded-0" [alt]="item.title">
+                        <h6 style="margin-bottom: 0px;">{{item.title}}</h6>
+                     </td>
+                     <td>{{ item.stock }}</td>
+                     <td>{{ item.price }}</td>
+                     <td>{{ item.category }}</td>
+                     <td>{{ item.num_sales }}</td>
+                     <td>
+                        <div class="btn-group dropdown">
+                           <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Opciones
+                           </button>
+                           <div class="dropdown-menu">
+                              <a [routerLink]="['/dashboard/productos', item._id]" class="dropdown-item">Editar</a>
+                              <a [attr.data-target]="'#delete-'+item._id" data-toggle="modal" class="dropdown-item">Eliminar</a>
+                              <a [routerLink]="['/dashboard/productos/inventario', item._id]" class="dropdown-item">Inventario</a>
+                              <a [routerLink]="['/dashboard/productos/variedades', item._id]" class="dropdown-item">Variedades</a>
+                              <a [routerLink]="['/dashboard/productos/galeria', item._id]" class="dropdown-item">Galería</a>
+                           </div>
                         </div>
-                     </div>
-                     <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                           <div class="modal-content">
-                              <div class="modal-header">
-                                 <h4 class="modal-title">Eliminar Producto</h4>
-                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                              </div>
-                              <div class="modal-body">
-                                 <p>Eliminar el producto {{item.title}}</p>
-                              </div>
-                              <div class="modal-footer">
-                                 <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
-                                 <button class="btn btn-primary btn-sm" type="button" (click)="delete_data(item._id)" >Sí, eliminar!</button>
+                        <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
+                           <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                 <div class="modal-header">
+                                    <h4 class="modal-title">Eliminar Producto</h4>
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                                 </div>
+                                 <div class="modal-body">
+                                    <p>Eliminar el producto {{item.title}}</p>
+                                 </div>
+                                 <div class="modal-footer">
+                                    <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
+                                    <button class="btn btn-primary btn-sm" type="button" (click)="delete_data(item._id)" >Sí, eliminar!</button>
+                                 </div>
                               </div>
                            </div>
                         </div>
-                     </div>
-                  </td>
-               </tr>
-            </tbody>
+                     </td>
+                  </tr>
+               </tbody>
+             </ng-container>
          </table>
       </div>
    </div>

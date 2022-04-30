@@ -6,3 +6,31 @@ body {
 a {
   cursor: pointer;
 }
+
+.w50 {
+  width: 50%;
+}
+
+.w200 {
+  width: 200px;
+}
+
+.cs-offcanvas-expand {
+  width: 260px !important;
+}
+
+.cs-offcanvas-enabled {
+  padding-left: 16.5rem;
+
+  @media (max-width: 980px) {
+    padding-left: 0rem;
+  }
+}
+
+.table {
+  //font-size: 14px !important;
+}
+
+.ngx-pagination {
+  margin-bottom: 0 !important;
+}

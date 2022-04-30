@@ -15,6 +15,7 @@ import { UpdateProductComponent } from './components/products/update-product/upd
 import { AuthGuard } from './guards/auth.guard';
 import { ConfigsComponent } from './components/configs/configs.component';
 import { VarietyProductComponent } from './components/products/variety-product/variety-product.component';
+import { GaleryProductComponent } from './components/products/galery-product/galery-product.component';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent, canActivate: [AuthGuard] },
@@ -25,13 +26,15 @@ const routes: Routes = [
     children: [
       { path: 'clientes',component: IndexCustomerComponent,canActivate: [AuthGuard] },
       { path: 'clientes/registro',component: CreateCustomerComponent, canActivate: [AuthGuard] },
-      { path: 'cliente/:id',component: UpdateCustomerComponent, canActivate: [AuthGuard] },
+      { path: 'clientes/:id',component: UpdateCustomerComponent, canActivate: [AuthGuard] },
 
       { path: 'productos',component: IndexProductComponent, canActivate: [AuthGuard] },
       { path: 'productos/registro',component: CreateProductComponent, canActivate: [AuthGuard] },
-      { path: 'producto/:id',component: UpdateProductComponent, canActivate: [AuthGuard] },
-      { path: 'producto/inventario/:id',component: InventoryProductComponent, canActivate: [AuthGuard] },
-      { path: 'producto/variedades/:id',component: VarietyProductComponent, canActivate: [AuthGuard] },
+      { path: 'productos/:id',component: UpdateProductComponent, canActivate: [AuthGuard] },
+      
+      { path: 'productos/inventario/:id',component: InventoryProductComponent, canActivate: [AuthGuard] },
+      { path: 'productos/variedades/:id',component: VarietyProductComponent, canActivate: [AuthGuard] },
+      { path: 'productos/galeria/:id',component: GaleryProductComponent, canActivate: [AuthGuard] },
 
       { path: 'cupones',component: IndexCouponComponent, canActivate: [AuthGuard] },
       { path: 'cupones/registro',component: CreateCouponComponent, canActivate: [AuthGuard] },

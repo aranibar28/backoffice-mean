@@ -75,7 +75,7 @@ export class ProductService {
     const url = `${base_url}/list_inventory_product/${id}`;
     return this.http.get(url, this.headers);
   }
-
+ 
   delete_inventory_product(id: any): Observable<any> {
     const url = `${base_url}/delete_inventory_product/${id}`;
     return this.http.delete(url, this.headers);
@@ -85,4 +85,18 @@ export class ProductService {
     const url = `${base_url}/register_inventory_product`;
     return this.http.post(url, data, this.headers);
   }
+
+  update_product_galery(id: any, data: any): Observable<any> {
+    const url = `${base_url}/update_product_galery/${id}`;
+    const fd = new FormData();
+    fd.append('_id', data._id);
+    fd.append('image', data.image);
+    return this.http.put(url, fd, this.headers);
+  }
+
+  delete_product_galery(id: any, data: any): Observable<any> {
+    const url = `${base_url}/delete_product_galery/${id}`;
+    return this.http.put(url, data, this.headers);
+  }
+
 }

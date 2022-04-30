@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     } else {
       iziToast.error({
         title: 'Error!',
-        message: 'Los datos del formulario no son válidos',
+        message: 'Algo salio mal',
       });
     }
   }
