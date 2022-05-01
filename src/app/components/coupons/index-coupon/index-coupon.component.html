@@ -1,5 +1,3 @@
-<app-sidebar></app-sidebar>
-
 <div class="card box-shadow-sm mt-6">
    <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
       <h2 class="mb-0 text-center">Cupones</h2>
@@ -57,12 +55,12 @@
                                  <h4 class="modal-title">Eliminar Cupón</h4>
                                  <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
                               </div>
-                              <div class="modal-body">
-                                 <p>Eliminar el cupón {{item.code}}</p>
+                              <div class="modal-body text-left">
+                                 <p>Eliminar el cupón <b class="text-danger">{{item.code}}</b></p>
                               </div>
                               <div class="modal-footer">
                                  <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
-                                 <button class="btn btn-primary btn-sm" type="button" (click)="delete_data(item._id)" >Sí, eliminar!</button>
+                                 <button class="btn btn-danger btn-sm" type="button" (click)="delete_data(item._id)" >Sí, eliminar!</button>
                               </div>
                            </div>
                         </div>
