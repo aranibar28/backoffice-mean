@@ -19,8 +19,8 @@ export class CouponService {
     return { headers: { token: this.token } };
   }
 
-  list_coupons(filter: any): Observable<any> {
-    const url = `${base_url}/list_coupons/${filter}`;
+  list_coupons(word: any): Observable<any> {
+    const url = `${base_url}/list_coupons/${word}`;
     return this.http.get(url, this.headers);
   }
 

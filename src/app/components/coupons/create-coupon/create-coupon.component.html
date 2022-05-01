@@ -1,67 +1,77 @@
 <div class="card box-shadow-sm mt-6">
-   <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
-      <h2 class="mb-0 text-center">Crear Cupón</h2>
-      <a class="btn btn-warning btn-xs ml-2" routerLink="/dashboard/cupones">
-        <i class="cxi-arrow-back mr-1"></i> Regresar
-      </a>
-   </div>
-   <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
-   <div class="card-body">
+   
+  <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
+    <h2 class="mb-0 text-center">Crear Cupón</h2>
+    <a class="btn btn-warning btn-xs ml-2" routerLink="/dashboard/cupones">
+      <i class="cxi-arrow-back mr-1"></i> Regresar
+    </a>
+  </div>
+
+  <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+    <div class="card-body">
       <div class="row">
-         <div class="col-lg-3 col-md-6 form-group">
-            <label for="validationCustom01" class="form-label">Código de Cupón</label>
-            <input
+        <div class="col-lg-3 col-md-6 form-group">
+          <label for="validationCustom01" class="form-label">
+             Código de Cupón
+          </label>
+          <input
             class="form-control"
             type="text"
             placeholder="Código de Cupón"
             required
             name="code"
             [(ngModel)]="coupon.code"
-            />
-         </div>
-         <div class="col-lg-3 col-md-6">
-            <label for="validationCustom01" class="form-label">Tipo</label>
-            <select
+          />
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <label for="validationCustom01" class="form-label">Tipo</label>
+          <select
             class="form-control custom-select"
             required
             name="type"
             [(ngModel)]="coupon.type"
-            >
+          >
             <option value="" disabled selected>Seleccionar</option>
             <option value="Porcentaje">Porcentaje</option>
             <option value="Valor Fijo">Valor Fijo</option>
-            </select>
-         </div>
-         <div class="col-lg-3 col-md-6 form-group">
-            <label for="validationCustom01" class="form-label">Valor</label>
-            <input
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-6 form-group">
+          <label for="validationCustom01" class="form-label">Valor</label>
+          <input
             class="form-control"
             type="number"
             placeholder="Valor de Descuento"
             required
             name="value"
             [(ngModel)]="coupon.value"
-            />
-         </div>
-         <div class="col-lg-3 col-md-6 form-group">
-            <label for="validationCustom01" class="form-label">Límite</label>
-            <input
+          />
+        </div>
+        <div class="col-lg-3 col-md-6 form-group">
+          <label for="validationCustom01" class="form-label">Límite</label>
+          <input
             class="form-control"
             type="number"
             placeholder="Límite máximo"
             required
             name="limit"
             [(ngModel)]="coupon.limit"
-            />
-         </div>
+          />
+        </div>
       </div>
-   </div>
-   <div class="card-footer">
-      <button *ngIf="!load_btn" class="btn btn-primary mr-2" type="submit">Crear Cupón</button>
-      <button *ngIf="load_btn" type="button" class="btn btn-primary" disabled>
-      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-      Cargando...
+    </div>
+    <div class="card-footer">
+      <button *ngIf="!load_btn" class="btn btn-primary mr-2" type="submit">
+        Crear Cupón
       </button>
-   </div>
-   </form>
+      <button *ngIf="load_btn" type="button" class="btn btn-primary" disabled>
+        <span
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        Cargando...
+      </button>
+    </div>
+  </form>
 </div>
