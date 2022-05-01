@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ComponentsRoutingModule } from './components-routing.module';
+import { SharedModule } from '../shared/shared.module';
+import { PagesComponent } from './pages.component';
 
 // Modulos Externos
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -30,6 +32,7 @@ import { GaleryProductComponent } from './products/galery-product/galery-product
     CommonModule,
     FormsModule,
     RouterModule,
+    SharedModule,
     ComponentsRoutingModule,
     NgxPaginationModule,
     NgxSkeletonLoaderModule,
@@ -38,6 +41,7 @@ import { GaleryProductComponent } from './products/galery-product/galery-product
     }),
   ],
   declarations: [
+    PagesComponent,
     InicioComponent,
     ConfigsComponent,
     IndexCustomerComponent,
