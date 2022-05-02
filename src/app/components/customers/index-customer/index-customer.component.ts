@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from 'src/app/services/customer.service';
-declare var iziToast: any;
-declare var $: any;
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-index-customer',
@@ -9,6 +8,7 @@ declare var $: any;
 })
 export class IndexCustomerComponent implements OnInit {
   public customers: Array<any> = [];
+  public customer: any;
   public filter_firt_name: string = '';
   public filter_last_name: string = '';
   public filter_email: string = '';
@@ -46,18 +46,21 @@ export class IndexCustomerComponent implements OnInit {
     });
   }
 
-  delete_data(id: any) {
-    this.customerService.delete_customer_admin(id).subscribe({
-      next: () => {
-        iziToast.success({
-          title: 'OK',
-          message: 'Se eliminó correctamente!',
+  delete_data(id: any, name: any) {
+    Swal.fire({
+      title: 'Eliminar Usuario',
+      text: `¿Desea eliminar el usuario ${name}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.customerService.delete_customer_admin(id).subscribe(() => {
+          this.init_data();
+          Swal.fire('Listo!', `El usuario ${name} fue eliminado.`, 'success');
         });
-        $('#delete-' + id).modal('hide');
-        $('.modal-backdrop').removeClass('show');
-        this.init_data();
-      },
-      error: (err) => console.log(err),
+      }
     });
+    return true;
   }
 }

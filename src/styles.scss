@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-  overflow-y: scroll;
+  overflow-y: scroll !important;
 }
 
 a {
@@ -13,6 +13,11 @@ a {
 
 .w200 {
   width: 200px;
+}
+
+.msg-error {
+  position: absolute !important;
+  bottom: 0 !important;
 }
 
 .cs-offcanvas-expand {

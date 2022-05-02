@@ -1,54 +1,62 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from 'src/app/services/customer.service';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
-declare var iziToast: any;
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-customer',
   templateUrl: './create-customer.component.html',
 })
 export class CreateCustomerComponent implements OnInit {
-  @ViewChild('registerForm') registerForm!: NgForm;
-  public customer: any = { gender: '' };
   public load_btn: boolean = false;
 
   constructor(
     private customerService: CustomerService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {}
 
-  register(registerForm: any) {
-    if (registerForm.valid) {
-      this.load_btn = true;
-      this.customerService.register_customer_admin(this.customer).subscribe({
+  registerForm: FormGroup = this.fb.group({
+    first_name: [, [Validators.required, Validators.minLength(3)]],
+    last_name: [, [Validators.required, Validators.minLength(3)]],
+    email: [, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+    phone: [, [Validators.required, Validators.pattern('[9][0-9]{8}')]],
+    dni: [, [Validators.required, Validators.pattern('[0-9]{8}')]],
+    gender: ['', [Validators.required]],
+    birthday: [, []],
+  });
+
+  register() {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
+    this.load_btn = true;
+    this.customerService
+      .register_customer_admin(this.registerForm.value)
+      .subscribe({
         next: () => {
-          iziToast.success({
-            title: 'OK',
-            message: 'Se registro correctamente!',
-          });
+          Swal.fire('Muy Bien!', 'Datos guardados correctamente', 'success');
           this.load_btn = false;
           this.router.navigateByUrl('/dashboard/clientes');
         },
         error: (err) => {
           this.load_btn = false;
-          console.log(err);
+          Swal.fire('Ups!', err.error.msg, 'error');
         },
       });
-    } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'Los datos del formulario no son válidos',
-      });
-    }
   }
 
-  emailValid(): boolean {
-    return (
-      this.registerForm?.controls['email']?.invalid &&
-      this.registerForm?.controls['email']?.touched
-    );
+  fieldsInvalid(campo: string) {
+    const text = this.registerForm.controls[campo];
+    return text.errors && text.touched;
+  }
+
+  fieldsValid(campo: string) {
+    const text = this.registerForm.controls[campo];
+    return text.valid;
   }
 }

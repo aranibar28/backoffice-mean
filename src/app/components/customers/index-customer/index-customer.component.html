@@ -61,7 +61,7 @@
             </td>
           </tbody>
           <tbody *ngIf="!load_data">
-            <tr *ngFor="let item of customers | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+            <tr *ngFor="let item of customers | paginate: { itemsPerPage: 4, currentPage: p }; let i = index">
               <th>{{ i + 1 }}</th>
               <td>{{ item.first_name }}</td>
               <td>{{ item.last_name }}</td>
@@ -84,58 +84,10 @@
                       >Editar</a
                     >
                     <a
-                      [attr.data-target]="'#delete-' + item._id"
+                      (click)="delete_data(item._id, item.first_name)"
                       class="dropdown-item"
-                      data-toggle="modal"
                       >Eliminar</a
                     >
-                  </div>
-                </div>
-                <div
-                  class="modal fade"
-                  id="delete-{{ item._id }}"
-                  tabindex="-1"
-                  style="display: none"
-                  aria-hidden="true"
-                >
-                  <div
-                    class="modal-dialog modal-dialog-centered"
-                    role="document"
-                  >
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Eliminar Cliente</h4>
-                        <button
-                          class="close"
-                          type="button"
-                          data-dismiss="modal"
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">x</span>
-                        </button>
-                      </div>
-                      <div class="modal-body text-left">
-                        <p>
-                          ¿Desea eliminar al cliente <b class="text-danger">{{ item.first_name }} {{ item.last_name }}</b>?
-                        </p>
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          class="btn btn-secondary btn-sm"
-                          type="button"
-                          data-dismiss="modal"
-                        >
-                          Cancelar
-                        </button>
-                        <button
-                          class="btn btn-danger btn-sm"
-                          type="button"
-                          (click)="delete_data(item._id)"
-                        >
-                          Sí, eliminar!
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </td>

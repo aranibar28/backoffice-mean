@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 const base_url = environment.url;
 
@@ -8,6 +8,7 @@ const base_url = environment.url;
   providedIn: 'root',
 })
 export class CustomerService {
+  public user: any;
   constructor(private http: HttpClient) {}
 
   get token(): string {

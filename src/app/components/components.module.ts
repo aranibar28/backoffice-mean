@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ComponentsRoutingModule } from './components-routing.module';
@@ -31,6 +32,7 @@ import { GaleryProductComponent } from './products/galery-product/galery-product
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     SharedModule,
     ComponentsRoutingModule,

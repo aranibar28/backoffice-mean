@@ -7,7 +7,7 @@
     </a>
   </div>
 
-  <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+  <form [formGroup]="updateForm" (ngSubmit)="update()">
     <div *ngIf="load_data" class="card-body">
       <div class="col-12 text-center">
         <ngx-skeleton-loader count="4" appearance="line" [theme]="{ height: '50px' }"></ngx-skeleton-loader>
@@ -16,94 +16,86 @@
     <div *ngIf="!load_data" class="card-body">
       <div class="row">
         <div class="col-md-4 form-group">
-          <label for="validationCustom01" class="form-label">Nombres</label>
+          <label for="validationCustom01" class="form-label">Nombres <span class="text-danger">*</span></label>
           <input
+            [ngClass]="{ 'is-invalid': fieldsInvalid('first_name'), 'is-valid': fieldsValid('first_name') }"
             class="form-control"
             type="text"
             placeholder="Nombres completos"
-            required
-            name="first_name"
-            [(ngModel)]="customer.first_name"
+            formControlName="first_name"
           />
         </div>
         <div class="col-md-4 form-group">
-          <label for="validationCustom01" class="form-label">Apellidos</label>
+          <label for="validationCustom01" class="form-label">Apellidos <span class="text-danger">*</span></label>
           <input
+            [ngClass]="{ 'is-invalid': fieldsInvalid('last_name'), 'is-valid': fieldsValid('last_name') }"
             class="form-control"
             type="text"
             placeholder="Apellidos completos"
-            required
-            name="last_name"
-            [(ngModel)]="customer.last_name"
+            formControlName="last_name"
           />
         </div>
         <div class="col-md-4 form-group">
           <label for="validationCustom01" class="form-label">
-            Correo electrónico
+            Correo Electrónico <span class="text-danger">*</span>
           </label>
           <input
+            [ngClass]="{ 'is-invalid': fieldsInvalid('email'), 'is-valid': fieldsValid('email') }"
             class="form-control"
             type="text"
             placeholder="Email"
-            required
-            name="email"
-            [(ngModel)]="customer.email"
+            formControlName="email"
           />
         </div>
         <div class="col-md-4 form-group">
-          <label for="validationCustom01" class="form-label">Teléfono</label>
+          <label for="validationCustom01" class="form-label">DNI <span class="text-danger">*</span></label>
           <input
-            class="form-control"
-            type="text"
-            placeholder="Teléfono"
-            required
-            name="phone"
-            [(ngModel)]="customer.phone"
-          />
-        </div>
-        <div class="col-md-4 form-group">
-          <label for="validationCustom01" class="form-label">
-            Fecha nacimiento
-          </label>
-          <input
-            class="form-control"
-            type="date"
-            required
-            name="birthday"
-            [(ngModel)]="customer.birthday"
-          />
-        </div>
-        <div class="col-md-4 form-group">
-          <label for="validationCustom01" class="form-label">DNI</label>
-          <input
+            [ngClass]="{ 'is-invalid': fieldsInvalid('dni'), 'is-valid': fieldsValid('dni') }"
             class="form-control"
             type="number"
             placeholder="DNI"
-            required
-            name="dni"
-            [(ngModel)]="customer.dni"
+            formControlName="dni"
           />
         </div>
-        <div class="col-md-4">
-          <label for="validationCustom01" class="form-label">Genero</label>
+        <div class="col-md-4 form-group">
+          <label for="validationCustom01" class="form-label">Teléfono <span class="text-danger">*</span></label>
+          <input
+            [ngClass]="{ 'is-invalid': fieldsInvalid('phone'), 'is-valid': fieldsValid('phone') }"
+            class="form-control"
+            type="text"
+            placeholder="Teléfono"
+            formControlName="phone"
+          />
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="validationCustom01" class="form-label">Género <span class="text-danger">*</span></label>
           <select
+            [ngClass]="{ 'is-invalid': fieldsInvalid('gender'), 'is-valid': fieldsValid('gender') }"
             class="form-control custom-select"
-            required
-            name="gender"
-            [(ngModel)]="customer.gender"
+            formControlName="gender"
           >
             <option value="" disabled selected>Seleccionar</option>
             <option value="Masculino">Masculino</option>
             <option value="Femenino">Femenino</option>
           </select>
         </div>
+        <div class="col-md-4 form-group">
+          <label for="validationCustom01" class="form-label">
+            Fecha Nacimiento
+          </label>
+          <input
+            class="form-control"
+            type="date"
+            formControlName="birthday"
+          />
+        </div>
       </div>
     </div>
     <div class="card-footer">
-      <button *ngIf="!load_btn" class="btn btn-primary mr-2" type="submit">
+      <button *ngIf="!load_btn" [ngClass]="{'btn-secondary':updateForm.invalid, 'btn-primary': updateForm.valid }" class="btn" type="submit">
         Actualizar Cliente
       </button>
-      <button *ngIf="load_btn" type="button" class="btn btn-primary" disabled>
+      <button *ngIf="load_btn" class="btn btn-primary" type="button" disabled>
         <span
           class="spinner-border spinner-border-sm me-2"
           role="status"
