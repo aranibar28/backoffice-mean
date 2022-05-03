@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerService } from 'src/app/services/customer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-update-customer',
@@ -23,6 +22,7 @@ export class UpdateCustomerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(({ id }) => (this.id = id));
     this.init_data();
   }
 
@@ -37,29 +37,26 @@ export class UpdateCustomerComponent implements OnInit {
   });
 
   init_data() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-      this.customerService.list_customer_by_id(this.id).subscribe({
-        next: (res) => {
-          if (res.data != undefined) {
-            this.customer = res.data;
-            const { first_name, last_name, email, phone, dni, gender, birthday } = this.customer;
-            this.updateForm.patchValue({
-              first_name,
-              last_name,
-              email,
-              phone,
-              dni,
-              gender,
-              birthday,
-            })
-            this.load_data = false;
-          } else {
-            this.router.navigateByUrl('/dashboard/clientes');
-          }
-        },
-        error: (err) => console.log(err),
-      });
+    this.customerService.list_customer_by_id(this.id).subscribe({
+      next: (res) => {
+        if (res.data != undefined) {
+          this.customer = res.data;
+          const { first_name, last_name, email, phone, dni, gender, birthday } = this.customer;
+          this.updateForm.patchValue({
+            first_name,
+            last_name,
+            email,
+            phone,
+            dni,
+            gender,
+            birthday,
+          });
+          this.load_data = false;
+        } else {
+          this.router.navigateByUrl('/dashboard/clientes');
+        }
+      },
+      error: (err) => console.log(err),
     });
   }
 
@@ -84,13 +81,8 @@ export class UpdateCustomerComponent implements OnInit {
       });
   }
 
-  fieldsInvalid(campo: string) {
-    const text = this.updateForm.controls[campo];
-    return text.errors && text.touched;
-  }
-
-  fieldsValid(campo: string) {
-    const text = this.updateForm.controls[campo];
-    return text.valid;
+  validate(name: string, status: boolean) {
+    const input = this.updateForm.controls[name];
+    return status ? input.errors && input.touched : input.valid;
   }
 }

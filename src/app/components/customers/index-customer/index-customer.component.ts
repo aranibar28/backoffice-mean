@@ -61,6 +61,5 @@ export class IndexCustomerComponent implements OnInit {
         });
       }
     });
-    return true;
   }
 }

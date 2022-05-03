@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 import { ProductService } from 'src/app/services/product.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
-
+import Swal from 'sweetalert2';
 const base_url = environment.url;
-declare var iziToast: any;
 declare var $: any;
 
 @Component({
@@ -15,73 +15,73 @@ declare var $: any;
 export class UpdateProductComponent implements OnInit {
   public load_data: boolean = true;
   public load_btn: boolean = false;
-  public product: any = {};
   public categories: any;
   public config: any = {};
   public file: File | undefined;
   public imgSelected: any | ArrayBuffer = '/assets/img/01.jpg';
+  public imgCurrent: any;
   public id: any;
 
   constructor(
     private productService: ProductService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {
     this.config = { height: 500 };
-    this.authService.get_config_public().subscribe({
-      next: (res) => {
-        this.categories = res.data.categories;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.activatedRoute.params.subscribe(({ id }) => (this.id = id));
+    this.authService
+      .get_config_public()
+      .subscribe(({ data: { categories } }) => (this.categories = categories));
   }
 
   ngOnInit(): void {
     this.init_data();
   }
 
+  updateForm: FormGroup = this.fb.group({
+    title: [, [Validators.required, Validators.minLength(3)]],
+    stock: [, [Validators.required]],
+    price: [, [Validators.required]],
+    category: ['', [Validators.required]],
+    description: ['', [Validators.required]],
+    container: ['', [Validators.required]],
+  });
+
   init_data() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-      this.productService.list_product_by_id(this.id).subscribe({
-        next: (res) => {
-          if (res.data != undefined) {
-            this.product = res.data;
-            this.imgSelected = `${base_url}/get_banner/${this.product.banner}`;
-            this.load_data = false;
-          } else {
-            this.router.navigateByUrl('/dashboard/productos');
-          }
-        },
-        error: (err) => console.log(err),
-      });
+    this.productService.list_product_by_id(this.id).subscribe({
+      next: (res) => {
+        if (res.data != undefined) {
+          const { title, stock, price, category, description, container, banner } = res.data;
+          this.updateForm.patchValue({ title, stock, price, category, description, container });
+          this.imgSelected = `${base_url}/get_banner/${banner}`;
+          this.imgCurrent = banner
+          this.load_data = false;
+        } else {
+          this.router.navigateByUrl('/dashboard/productos');
+        }
+      },
+      error: (err) => console.log(err),
     });
   }
 
-  update(updateForm: any) {
-    if (updateForm.valid) {
-      var data: any = {};
-      if (this.file != undefined) {
-        data.banner = this.file;
-      }
+  update() {
+    if (this.updateForm.invalid) {
+      this.updateForm.markAllAsTouched();
+      return;
+    }
 
-      data.title = this.product.title;
-      data.stock = this.product.stock;
-      data.price = this.product.price;
-      data.category = this.product.category;
-      data.description = this.product.description;
-      data.container = this.product.container;
+    if (this.file != undefined) {
+      this.updateForm.addControl('banner',this.fb.control(this.file, Validators.required));
+    }
 
-      this.load_btn = true;
-      this.productService.update_product(data, this.id).subscribe({
+    this.load_btn = true;
+    this.productService
+      .update_product(this.updateForm.value, this.id)
+      .subscribe({
         next: () => {
-          iziToast.success({
-            title: 'OK',
-            message: 'Se actualizó correctamente!',
-          });
+          Swal.fire('Muy Bien!', 'Se actualizó correctamente', 'success');
           this.load_btn = false;
           this.router.navigateByUrl('/dashboard/productos');
         },
@@ -90,24 +90,16 @@ export class UpdateProductComponent implements OnInit {
           console.log(err);
         },
       });
-    } else {
-      this.load_btn = false;
-      iziToast.error({
-        title: 'Error!',
-        message: 'Los datos del formulario no son válidos',
-      });
-    }
   }
 
   fileChanged(event: any): void {
     const file = event.target.files[0];
-
     if (!file) {
       this.file = undefined;
-      this.imgSelected = `${base_url}/get_banner/${this.product.banner}`;
+      this.imgSelected = `${base_url}/get_banner/${this.imgCurrent}`;
       $('#input-portada').text('Seleccionar imagen');
     } else {
-      if (file.size <= 3000000) {
+      if (file.size <= 4000000) {
         if (
           file.type === 'image/png' ||
           file.type === 'image/jpg' ||
@@ -116,28 +108,30 @@ export class UpdateProductComponent implements OnInit {
           file.type === 'image/webp'
         ) {
           const reader = new FileReader();
-          reader.onload = (e) => (this.imgSelected = reader.result);
+          reader.onload = () => (this.imgSelected = reader.result);
           reader.readAsDataURL(file);
           $('#input-portada').text(file.name);
+          $('#file-input').removeClass('is-invalid');
           this.file = file;
         } else {
-          iziToast.error({
-            title: 'Error!',
-            message: 'El archivo debe ser una imagen',
-          });
+          Swal.fire('Ups!', 'El archivo debe ser una imagen', 'error');
           this.file = undefined;
           this.imgSelected = '/assets/img/01.jpg';
           $('#input-portada').text('Seleccionar imagen');
+          $('#file-input').addClass('is-invalid');
         }
       } else {
-        iziToast.error({
-          title: 'Error!',
-          message: 'La imagen no puede superar los 4MB',
-        });
+        Swal.fire('Ups!', 'La imagen no puede superar los 4MB', 'error');
         this.file = undefined;
         this.imgSelected = '/assets/img/01.jpg';
         $('#input-portada').text('Seleccionar imagen');
+        $('#file-input').addClass('is-invalid');
       }
     }
+  }
+
+  validate(name: string, status: boolean) {
+    const input = this.updateForm.controls[name];
+    return status ? input.errors && input.touched : input.valid;
   }
 }

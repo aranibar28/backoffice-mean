@@ -7,17 +7,12 @@ a {
   cursor: pointer;
 }
 
-.w50 {
-  width: 50%;
-}
-
 .w200 {
   width: 200px;
 }
 
-.msg-error {
-  position: absolute !important;
-  bottom: 0 !important;
+.w50 {
+  width: 50%;
 }
 
 .cs-offcanvas-expand {
@@ -32,10 +27,11 @@ a {
   }
 }
 
-.table {
-  //font-size: 14px !important;
-}
-
 .ngx-pagination {
   margin-bottom: 0 !important;
+}
+
+.msg-error {
+  position: absolute !important;
+  bottom: 0 !important;
 }

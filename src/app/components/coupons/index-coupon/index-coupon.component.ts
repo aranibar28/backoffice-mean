@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CouponService } from 'src/app/services/coupon.service';
-
-declare var iziToast: any;
-declare var jQuery: any;
-declare var $: any;
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-index-coupon',
@@ -18,10 +15,10 @@ export class IndexCouponComponent implements OnInit {
   constructor(private couponService: CouponService) {}
 
   ngOnInit(): void {
-    this.list_coupons();
+    this.init_data();
   }
 
-  list_coupons() {
+  init_data() {
     this.couponService.list_coupons(this.word).subscribe({
       next: (res) => {
         this.coupons = res.data;
@@ -33,27 +30,29 @@ export class IndexCouponComponent implements OnInit {
 
   filter() {
     if (this.word.length === 0) {
-      this.list_coupons();
+      this.init_data();
       return;
     }
     if (this.coupons.length === 0) {
       return;
     }
-    this.list_coupons();
+    this.init_data();
   }
 
-  delete_data(id: any) {
-    this.couponService.delete_coupon(id).subscribe({
-      next: () => {
-        iziToast.success({
-          title: 'OK',
-          message: 'Se eliminó correctamente!',
+  delete_data(id: any, code: any) {
+    Swal.fire({
+      title: 'Eliminar Usuario',
+      text: `¿Desea eliminar el código ${code}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.couponService.delete_coupon(id).subscribe(() => {
+          this.init_data();
+          Swal.fire('Listo!', `El código ${code} fue eliminado.`, 'success');
         });
-        $('#delete-' + id).modal('hide');
-        $('.modal-backdrop').removeClass('show');
-        this.list_coupons();
-      },
-      error: (err) => console.log(err),
+      }
     });
   }
 }

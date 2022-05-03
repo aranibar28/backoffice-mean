@@ -7,7 +7,7 @@
     </a>
   </div>
 
-  <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+  <form [formGroup]="updateForm" (ngSubmit)="update()">
     <div *ngIf="load_data" class="card-body">
       <div class="col-12 text-center">
         <ngx-skeleton-loader count="4" appearance="line" [theme]="{ height: '50px' }"></ngx-skeleton-loader>
@@ -18,46 +18,42 @@
         <div class="col-lg-8">
           <div class="row">
             <div class="col-lg-12 form-group">
-              <label for="">Titulo de producto</label>
+              <label for="">Titulo de Producto <span class="text-danger">*</span></label>
               <input
+                [ngClass]="{ 'is-invalid': validate('title', true), 'is-valid': validate('title', false) }"
+                class="form-control"
                 type="text"
-                class="form-control"
                 placeholder="Titulo de producto"
-                required
-                name="title"
-                [(ngModel)]="product.title"
+                formControlName="title"
               />
             </div>
             <div class="col-lg-4 form-group">
-              <label for="">Stock</label>
+              <label for="">Stock <span class="text-danger">*</span></label>
               <input
-                type="number"
+                [ngClass]="{ 'is-invalid': validate('stock', true), 'is-valid': validate('stock', false) }"
                 class="form-control"
+                type="number"
                 placeholder="Cantidad inicial"
-                required
-                name="stock"
-                [(ngModel)]="product.stock"
+                formControlName="stock"
               />
             </div>
             <div class="col-lg-4 form-group">
-              <label for="">Precio</label>
+              <label for="">Precio <span class="text-danger">*</span></label>
               <input
-                type="number"
+                [ngClass]="{ 'is-invalid': validate('price', true), 'is-valid': validate('price', false) }"
                 class="form-control"
+                type="number"
                 placeholder="Precio"
-                required
-                name="price"
-                [(ngModel)]="product.price"
+                formControlName="price"
               />
             </div>
             <div class="col-lg-4 form-group">
-              <label for="">Categoría</label>
+              <label for="">Categoría <span class="text-danger">*</span></label>
               <select
+                [ngClass]="{ 'is-invalid': validate('category', true), 'is-valid': validate('category', false) }"
                 class="form-control custom-select"
                 id="select-input"
-                required
-                name="category"
-                [(ngModel)]="product.category"
+                formControlName="category"
               >
                 <option value="" selected disabled>Seleccionar</option>
                 <option *ngFor="let item of categories" [value]="item.name">
@@ -66,21 +62,19 @@
               </select>
             </div>
             <div class="col-lg-12 form-group">
-              <label for="">Descripción corta</label>
+              <label for="">Descripción corta <span class="text-danger">*</span></label>
               <textarea
+                [ngClass]="{ 'is-invalid': validate('description', true), 'is-valid': validate('description', false) }"
                 class="form-control"
                 placeholder="Titulo de producto"
-                required
                 rows="5"
-                name="description"
-                [(ngModel)]="product.description"
+                formControlName="description"
               ></textarea>
             </div>
             <div class="col-lg-12 form-group">
               <tinymce
                 [config]="config"
-                name="container"
-                [(ngModel)]="product.container"
+                formControlName="container"
               ></tinymce>
             </div>
           </div>
@@ -88,9 +82,10 @@
         <div class="col-lg-4">
           <div class="row">
             <div class="col-lg-12 form-group">
-              <label for="">Portada</label>
+              <label for="">Portada <span class="text-danger">*</span></label>
               <div class="custom-file">
                 <input
+                  [ngClass]="{ 'is-valid': this.file }"
                   class="custom-file-input"
                   type="file"
                   id="file-input"
@@ -118,7 +113,7 @@
       </div>
     </div>
     <div class="card-footer">
-      <button *ngIf="!load_btn" class="btn btn-primary mr-2" type="submit">
+      <button *ngIf="!load_btn" [ngClass]="{'btn-secondary':updateForm.invalid, 'btn-primary': updateForm.valid }" class="btn" type="submit">
         Actualizar Producto
       </button>
       <button *ngIf="load_btn" type="button" class="btn btn-primary" disabled>

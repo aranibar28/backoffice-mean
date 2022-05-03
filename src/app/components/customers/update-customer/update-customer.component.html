@@ -18,7 +18,7 @@
         <div class="col-md-4 form-group">
           <label for="validationCustom01" class="form-label">Nombres <span class="text-danger">*</span></label>
           <input
-            [ngClass]="{ 'is-invalid': fieldsInvalid('first_name'), 'is-valid': fieldsValid('first_name') }"
+            [ngClass]="{ 'is-invalid': validate('first_name', true), 'is-valid': validate('first_name', false) }"
             class="form-control"
             type="text"
             placeholder="Nombres completos"
@@ -28,7 +28,7 @@
         <div class="col-md-4 form-group">
           <label for="validationCustom01" class="form-label">Apellidos <span class="text-danger">*</span></label>
           <input
-            [ngClass]="{ 'is-invalid': fieldsInvalid('last_name'), 'is-valid': fieldsValid('last_name') }"
+            [ngClass]="{ 'is-invalid': validate('last_name', true), 'is-valid': validate('last_name', false) }"
             class="form-control"
             type="text"
             placeholder="Apellidos completos"
@@ -40,7 +40,7 @@
             Correo Electrónico <span class="text-danger">*</span>
           </label>
           <input
-            [ngClass]="{ 'is-invalid': fieldsInvalid('email'), 'is-valid': fieldsValid('email') }"
+            [ngClass]="{ 'is-invalid': validate('email', true), 'is-valid': validate('email', false) }"
             class="form-control"
             type="text"
             placeholder="Email"
@@ -50,7 +50,8 @@
         <div class="col-md-4 form-group">
           <label for="validationCustom01" class="form-label">DNI <span class="text-danger">*</span></label>
           <input
-            [ngClass]="{ 'is-invalid': fieldsInvalid('dni'), 'is-valid': fieldsValid('dni') }"
+            [ngClass]="{ 'is-invalid': validate('dni', true), 'is-valid': validate('dni', false) }"
+            oninput="if (this.value.length > 8) this.value = this.value.slice(0, 8)"
             class="form-control"
             type="number"
             placeholder="DNI"
@@ -60,7 +61,8 @@
         <div class="col-md-4 form-group">
           <label for="validationCustom01" class="form-label">Teléfono <span class="text-danger">*</span></label>
           <input
-            [ngClass]="{ 'is-invalid': fieldsInvalid('phone'), 'is-valid': fieldsValid('phone') }"
+            [ngClass]="{ 'is-invalid': validate('phone', true), 'is-valid': validate('phone', false) }"
+            oninput="if (this.value.length > 9) this.value = this.value.slice(0, 9)"
             class="form-control"
             type="text"
             placeholder="Teléfono"
@@ -70,7 +72,7 @@
         <div class="col-md-4 form-group">
           <label for="validationCustom01" class="form-label">Género <span class="text-danger">*</span></label>
           <select
-            [ngClass]="{ 'is-invalid': fieldsInvalid('gender'), 'is-valid': fieldsValid('gender') }"
+            [ngClass]="{ 'is-invalid': validate('gender', true), 'is-valid': validate('gender', false) }"
             class="form-control custom-select"
             formControlName="gender"
           >

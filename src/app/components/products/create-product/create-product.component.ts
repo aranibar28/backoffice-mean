@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/services/product.service';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-declare var iziToast: any;
-declare var jQuery: any;
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 declare var $: any;
 
 @Component({
@@ -21,56 +21,49 @@ export class CreateProductComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {
     this.config = { height: 500 };
-    this.authService.get_config_public().subscribe({
-      next: (res) => {
-        this.categories = res.data.categories;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.authService
+      .get_config_public()
+      .subscribe(({ data: { categories } }) => (this.categories = categories));
   }
 
   ngOnInit(): void {}
 
-  register(registerForm: any) {
-    if (registerForm.valid) {
-      if (this.file == undefined) {
-        iziToast.error({
-          title: 'Error!',
-          message: 'Debe subir una portada',
-        });
-      } else {
-        this.load_btn = true;
-        this.productService
-          .register_product(this.product, this.file)
-          .subscribe({
-            next: () => {
-              iziToast.success({
-                title: 'OK',
-                message: 'Se registro correctamente!',
-              });
-              this.load_btn = false;
-              this.router.navigateByUrl('/dashboard/productos');
-            },
-            error: (err) => {
-              console.log(err);
-              this.load_btn = false;
-            },
-          });
-      }
+  registerForm: FormGroup = this.fb.group({
+    title: [, [Validators.required, Validators.minLength(3)]],
+    stock: ['', [Validators.required]],
+    price: [, [Validators.required]],
+    category: ['', [Validators.required]],
+    description: ['', [Validators.required]],
+    container: ['', [Validators.required]],
+  });
+
+  register() {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      $('#file-input').addClass('is-invalid');
+      return;
+    }
+    if (this.file == undefined) {
+      Swal.fire('Ups!', 'Es obligatorio subir una foto del producto.', 'error');
     } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'Los datos del formulario no son válidos',
-      });
-      this.load_btn = false;
-      this.file = undefined;
-      this.imgSelected = '/assets/img/01.jpg';
-      $('#input-portada').text('Seleccionar imagen');
+      this.load_btn = true;
+      this.productService
+        .register_product(this.registerForm.value, this.file)
+        .subscribe({
+          next: () => {
+            Swal.fire('Muy Bien!', 'Datos guardados correctamente', 'success');
+            this.load_btn = false;
+            this.router.navigateByUrl('/dashboard/productos');
+          },
+          error: (err) => {
+            console.log(err);
+            this.load_btn = false;
+          },
+        });
     }
   }
 
@@ -80,6 +73,7 @@ export class CreateProductComponent implements OnInit {
       this.file = undefined;
       this.imgSelected = '/assets/img/01.jpg';
       $('#input-portada').text('Seleccionar imagen');
+      $('#file-input').addClass('is-invalid');
     } else {
       if (file.size <= 3000000) {
         if (
@@ -90,28 +84,30 @@ export class CreateProductComponent implements OnInit {
           file.type === 'image/webp'
         ) {
           const reader = new FileReader();
-          reader.onload = (e) => (this.imgSelected = reader.result);
+          reader.onload = () => (this.imgSelected = reader.result);
           reader.readAsDataURL(file);
           $('#input-portada').text(file.name);
+          $('#file-input').removeClass('is-invalid');
           this.file = file;
         } else {
-          iziToast.error({
-            title: 'Error!',
-            message: 'El archivo debe ser una imagen',
-          });
           this.file = undefined;
           this.imgSelected = '/assets/img/01.jpg';
           $('#input-portada').text('Seleccionar imagen');
+          $('#file-input').addClass('is-invalid');
+          Swal.fire('Ups!', 'El archivo debe ser una imagen', 'error');
         }
       } else {
-        iziToast.error({
-          title: 'Error!',
-          message: 'La imagen no puede superar los 4MB',
-        });
         this.file = undefined;
         this.imgSelected = '/assets/img/01.jpg';
         $('#input-portada').text('Seleccionar imagen');
+        $('#file-input').addClass('is-invalid');
+        Swal.fire('Ups!', 'La imagen no puede superar los 4MB', 'error');
       }
     }
+  }
+
+  validate(name: string, status: boolean) {
+    const input = this.registerForm.controls[name];
+    return status ? input.errors && input.touched : input.valid;
   }
 }

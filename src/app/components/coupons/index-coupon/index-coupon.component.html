@@ -74,58 +74,10 @@
                       >Editar</a
                     >
                     <a
-                      [attr.data-target]="'#delete-' + item._id"
-                      class="dropdown-item"
-                      data-toggle="modal"
-                      >Eliminar</a
-                    >
-                  </div>
-                </div>
-                <div
-                  class="modal fade"
-                  id="delete-{{ item._id }}"
-                  tabindex="-1"
-                  style="display: none"
-                  aria-hidden="true"
-                >
-                  <div
-                    class="modal-dialog modal-dialog-centered"
-                    role="document"
+                    (click)="delete_data(item._id, item.code)"
+                    class="dropdown-item"
+                    >Eliminar</a
                   >
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Eliminar Cupón</h4>
-                        <button
-                          class="close"
-                          type="button"
-                          data-dismiss="modal"
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">x</span>
-                        </button>
-                      </div>
-                      <div class="modal-body text-left">
-                        <p>
-                          ¿Desea eliminar el cupón <b class="text-danger">{{ item.code }}</b>?
-                        </p>
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          class="btn btn-secondary btn-sm"
-                          type="button"
-                          data-dismiss="modal"
-                        >
-                          Cancelar
-                        </button>
-                        <button
-                          class="btn btn-danger btn-sm"
-                          type="button"
-                          (click)="delete_data(item._id)"
-                        >
-                          Sí, eliminar!
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </td>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CouponService } from 'src/app/services/coupon.service';
-
-declare var iziToast: any;
+import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-coupon',
@@ -17,52 +17,58 @@ export class UpdateCouponComponent implements OnInit {
   constructor(
     private couponService: CouponService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(({ id }) => (this.id = id));
     this.init_data();
   }
 
+  updateForm: FormGroup = this.fb.group({
+    code: [, [Validators.required, Validators.minLength(6)]],
+    type: ['', [Validators.required]],
+    value: [, [Validators.required]],
+    limit: [, [Validators.required]],
+  });
+
   init_data() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-      this.couponService.list_coupon_by_id(this.id).subscribe({
-        next: (res) => {
-          if (res.data != undefined) {
-            this.coupon = res.data;
-            this.load_data = false;
-          } else {
-            this.router.navigateByUrl('/dashboard/cupones');
-          }
-        },
-        error: (err) => console.log(err),
-      });
+    this.couponService.list_coupon_by_id(this.id).subscribe({
+      next: (res) => {
+        if (res.data != undefined) {
+          const { code, type, value, limit } = res.data;
+          this.updateForm.patchValue({ code, type, value, limit });
+          this.load_data = false;
+        } else {
+          this.router.navigateByUrl('/dashboard/cupones');
+        }
+      },
+      error: (err) => console.log(err),
     });
   }
 
-  update(updateForm: any) {
-    if (updateForm.valid) {
-      this.load_btn = true;
-      this.couponService.update_coupon(this.id, this.coupon).subscribe({
-        next: () => {
-          iziToast.success({
-            title: 'OK',
-            message: 'Se actualizó correctamente!',
-          });
-          this.load_btn = false;
-          this.router.navigateByUrl('/dashboard/cupones');
-        },
-        error: (err) => {
-          this.load_btn = false;
-          console.log(err);
-        },
-      });
-    } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'Los datos del formulario no son válidos',
-      });
+  update() {
+    if (this.updateForm.invalid) {
+      this.updateForm.markAllAsTouched();
+      return;
     }
+    this.load_btn = true;
+    this.couponService.update_coupon(this.id, this.updateForm.value).subscribe({
+      next: () => {
+        this.load_btn = false;
+        this.router.navigateByUrl('/dashboard/cupones');
+        Swal.fire('Muy Bien!', 'Se actualizó correctamente', 'success');
+      },
+      error: (err) => {
+        this.load_btn = false;
+        Swal.fire('Ups!', err.error.msg, 'error');
+      },
+    });
+  }
+
+  validate(name: string, status: boolean) {
+    const input = this.updateForm.controls[name];
+    return status ? input.errors && input.touched : input.valid;
   }
 }

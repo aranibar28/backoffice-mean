@@ -7,7 +7,7 @@
     </a>
   </div>
 
-  <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+  <form [formGroup]="updateForm" (ngSubmit)="update()">
     <div *ngIf="load_data" class="card-body">
       <div class="col-12 text-center">
         <ngx-skeleton-loader count="4" appearance="line" [theme]="{ height: '50px' }"></ngx-skeleton-loader>
@@ -16,25 +16,23 @@
     <div *ngIf="!load_data" class="card-body">
       <div class="row">
         <div class="col-lg-3 col-md-6 form-group">
-          <label for="validationCustom01" class="form-label">
-             Código de Cupón
+          <label class="form-label">
+             Código de Cupón <span class="text-danger">*</span>
           </label>
           <input
+          [ngClass]="{ 'is-invalid': validate('code', true), 'is-valid': validate('code', false) }"
             class="form-control"
             type="text"
             placeholder="Código de Cupón"
-            required
-            name="code"
-            [(ngModel)]="coupon.code"
+            formControlName="code"
           />
         </div>
         <div class="col-lg-3 col-md-6">
-          <label for="validationCustom01" class="form-label">Tipo</label>
+          <label class="form-label">Tipo <span class="text-danger">*</span></label>
           <select
+            [ngClass]="{ 'is-invalid': validate('type', true), 'is-valid': validate('type', false) }"
             class="form-control custom-select"
-            required
-            name="type"
-            [(ngModel)]="coupon.type"
+            formControlName="type"
           >
             <option value="" disabled selected>Seleccionar</option>
             <option value="Porcentaje">Porcentaje</option>
@@ -42,25 +40,23 @@
           </select>
         </div>
         <div class="col-lg-3 col-md-6 form-group">
-          <label for="validationCustom01" class="form-label">Valor</label>
+          <label class="form-label">Valor <span class="text-danger">*</span></label>
           <input
+            [ngClass]="{ 'is-invalid': validate('value', true), 'is-valid': validate('value', false) }"
             class="form-control"
             type="number"
             placeholder="Valor de Descuento"
-            required
-            name="value"
-            [(ngModel)]="coupon.value"
+            formControlName="value"
           />
         </div>
         <div class="col-lg-3 col-md-6 form-group">
-          <label for="validationCustom01" class="form-label">Límite</label>
+          <label class="form-label">Límite <span class="text-danger">*</span></label>
           <input
+            [ngClass]="{ 'is-invalid': validate('limit', true), 'is-valid': validate('limit', false) }"
             class="form-control"
             type="number"
             placeholder="Límite máximo"
-            required
-            name="limit"
-            [(ngModel)]="coupon.limit"
+            formControlName="limit"
           />
         </div>
       </div>

@@ -50,13 +50,8 @@ export class CreateCustomerComponent implements OnInit {
       });
   }
 
-  fieldsInvalid(campo: string) {
-    const text = this.registerForm.controls[campo];
-    return text.errors && text.touched;
-  }
-
-  fieldsValid(campo: string) {
-    const text = this.registerForm.controls[campo];
-    return text.valid;
+  validate(name: string, status: boolean) {
+    const input = this.registerForm.controls[name];
+    return status ? input.errors && input.touched : input.valid;
   }
 }
