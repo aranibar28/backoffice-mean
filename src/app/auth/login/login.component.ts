@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-declare var jQuery: any;
-declare var $: any;
-declare var iziToast: any;
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -32,17 +30,11 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/');
         },
         error: () => {
-          iziToast.error({
-            title: 'Error!',
-            message: 'Los datos del formulario no son válidos',
-          });
+          Swal.fire('Ups!', 'Los datos del formulario no son válidos', 'error');
         },
       });
     } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'Algo salio mal',
-      });
+      Swal.fire('Ups!', 'Algo salio mal', 'error');
     }
   }
 }

@@ -56,7 +56,7 @@
          </div>
          <div class="col-md-3">
             <div class="card text-center">
-               <img style="min-width:230px" [src]="url + '/get_banner/' +product.banner" class="card-img-top" alt="Card image">
+               <img style="min-width:230px" [src]="product.banner | image" class="card-img-top" alt="Card image">
                <div class="card-body">
                   <h5 class="card-title">{{product.title}}</h5>
                   <p class="card-text text-muted fs-sm">{{product.description}}</p>

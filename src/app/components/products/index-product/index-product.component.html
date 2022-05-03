@@ -58,7 +58,7 @@
               <td>
                 <img
                   style="width: 50px"
-                  [src]="url + '/get_banner/' + item.banner"
+                  [src]="item.banner | image"
                   class="img-thumbnail rounded-0"
                   [alt]="item.title"
                 />
@@ -81,58 +81,10 @@
                   </button>
                   <div class="dropdown-menu">
                      <a [routerLink]="['/dashboard/productos', item._id]" class="dropdown-item">Editar</a>
-                     <a [attr.data-target]="'#delete-'+item._id" data-toggle="modal" class="dropdown-item">Eliminar</a>
+                     <a (click)="delete_data(item._id, item.title)" class="dropdown-item">Eliminar</a>
                      <a [routerLink]="['/dashboard/productos/inventario', item._id]" class="dropdown-item">Inventario</a>
                      <a [routerLink]="['/dashboard/productos/variedades', item._id]" class="dropdown-item">Variedades</a>
                      <a [routerLink]="['/dashboard/productos/galeria', item._id]" class="dropdown-item">Galería</a>
-                  </div>
-                </div>
-                <div
-                  class="modal fade"
-                  id="delete-{{ item._id }}"
-                  tabindex="-1"
-                  style="display: none"
-                  aria-hidden="true"
-                >
-                  <div
-                    class="modal-dialog modal-dialog-centered"
-                    role="document"
-                  >
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Eliminar Producto</h4>
-                        <button
-                          class="close"
-                          type="button"
-                          data-dismiss="modal"
-                          aria-label="Close"
-                        >
-                          <span aria-hidden="true">x</span>
-                        </button>
-                      </div>
-                      <div class="modal-body text-left">
-                        <p>
-                          Eliminar el producto
-                          <b class="text-danger">{{ item.title }}</b>
-                        </p>
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          class="btn btn-secondary btn-sm"
-                          type="button"
-                          data-dismiss="modal"
-                        >
-                          Cancelar
-                        </button>
-                        <button
-                          class="btn btn-danger btn-sm"
-                          type="button"
-                          (click)="delete_data(item._id)"
-                        >
-                          Sí, eliminar!
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </td>

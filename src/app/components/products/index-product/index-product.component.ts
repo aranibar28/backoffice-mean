@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
-import { environment } from 'src/environments/environment';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
-
-declare var iziToast: any;
-declare var $: any;
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-index-product',
   templateUrl: './index-product.component.html',
 })
 export class IndexProductComponent implements OnInit {
-  public products: Array<any> = [];
-  public export_products: Array<any> = [];
   public load_data: boolean = true;
+  public products: Array<any> = [];
+  public excel: Array<any> = [];
+
   public word: string = '';
   public url: string = '';
   public p: number = 1;
@@ -22,25 +20,23 @@ export class IndexProductComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.list_products();
-    this.url = environment.url;
+    this.init_data();
   }
 
-  list_products() {
+  init_excel() {
+    this.products.forEach(
+      ({ title, stock, price, category, num_sales, create_at }) => {
+        this.excel.push({ title, stock, price, category, num_sales, create_at });
+      }
+    );
+  }
+
+  init_data() {
     this.productService.list_products(this.word).subscribe({
       next: (res) => {
         this.products = res.data;
-        this.products.forEach((element) => {
-          this.export_products.push({
-            title: element.title,
-            stock: element.stock,
-            price: element.price,
-            category: element.category,
-            num_sales: element.num_sales,
-            create_at: element.create_at,
-          });
-        });
         this.load_data = false;
+        this.init_excel();
       },
       error: (err) => console.log(err),
     });
@@ -48,27 +44,29 @@ export class IndexProductComponent implements OnInit {
 
   filter() {
     if (this.word.length === 0) {
-      this.list_products();
+      this.init_data();
       return;
     }
     if (this.products.length === 0) {
       return;
     }
-    this.list_products();
+    this.init_data();
   }
 
-  delete_data(id: any) {
-    this.productService.delete_product(id).subscribe({
-      next: () => {
-        iziToast.success({
-          title: 'OK',
-          message: 'Se eliminó correctamente!',
+  delete_data(id: any, name: any) {
+    Swal.fire({
+      title: 'Eliminar Producto',
+      text: `¿Desea eliminar el Producto ${name}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productService.delete_product(id).subscribe(() => {
+          this.init_data();
+          Swal.fire('Listo!', `El producto ${name} fue eliminado.`, 'success');
         });
-        $('#delete-' + id).modal('hide');
-        $('.modal-backdrop').removeClass('show');
-        this.list_products();
-      },
-      error: (err) => console.log(err),
+      }
     });
   }
 
@@ -77,7 +75,7 @@ export class IndexProductComponent implements OnInit {
     let worksheet = workbook.addWorksheet('Reporte de productos');
 
     worksheet.addRow(undefined);
-    for (let x1 of this.export_products) {
+    for (let x1 of this.excel) {
       let x2 = Object.keys(x1);
 
       let temp = [];
@@ -87,7 +85,7 @@ export class IndexProductComponent implements OnInit {
       worksheet.addRow(temp);
     }
 
-    let fname = 'REP01- ';
+    let fname = 'Lista de Productos';
 
     worksheet.columns = [
       { header: 'Producto', key: 'col1', width: 30 },
@@ -99,8 +97,10 @@ export class IndexProductComponent implements OnInit {
     ] as any;
 
     workbook.xlsx.writeBuffer().then((data) => {
-      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      fs.saveAs(blob, fname + '-' + new Date().valueOf() + '.xlsx');
+      let blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      fs.saveAs(blob, fname + ' ' + new Date().toISOString().split('T')[0] + '.xlsx');
     });
   }
 }

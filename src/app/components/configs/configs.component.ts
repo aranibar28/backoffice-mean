@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { v4 as uuidv4 } from 'uuid';
+import Swal from 'sweetalert2';
 
 const base_url = environment.url;
-declare var iziToast: any;
-declare var jQuery: any;
 declare var $: any;
 
 @Component({
@@ -46,10 +45,7 @@ export class ConfigsComponent implements OnInit {
       this.name = '';
       this.icon = '';
     } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'Debe ingresar nombre e icono para una nueva la categoría',
-      });
+      Swal.fire('Ups!', 'Debe ingresar nombre e icono', 'error');
     }
   }
 
@@ -66,20 +62,14 @@ export class ConfigsComponent implements OnInit {
         .update_config_admin('6267febf2c5d09955768666a', data)
         .subscribe({
           next: (res) => {
-            iziToast.success({
-              title: 'OK',
-              message: 'Se actualizó correctamente!',
-            });
+            Swal.fire('Listo!', `Se actualizó correctamente.`, 'success');
           },
           error: (err) => {
             console.log(err);
           },
         });
     } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'Complete correctamente el formulario',
-      });
+      Swal.fire('Ups!', 'Completa correctamente el formulario', 'error');
     }
   }
 
@@ -105,25 +95,21 @@ export class ConfigsComponent implements OnInit {
         ) {
           const reader = new FileReader();
           reader.onload = (e) => (this.imgSelected = reader.result);
-          $('.cs-file-drop-icon').addClass('cs-file-drop-preview img-thumbnail rounded');
+          $('.cs-file-drop-icon').addClass(
+            'cs-file-drop-preview img-thumbnail rounded'
+          );
           $('.cs-file-drop-icon').removeClass('cs-file-drop-icon cxi-upload');
           reader.readAsDataURL(file);
           this.file = file;
         } else {
-          iziToast.error({
-            title: 'Error!',
-            message: 'El archivo debe ser una imagen',
-          });
+          Swal.fire('Ups!', 'El archivo debe ser una imagen', 'error');
           this.file = undefined;
           this.imgSelected = '/assets/img/01.jpg';
-          }
+        }
       } else {
-        iziToast.error({
-          title: 'Error!',
-          message: 'La imagen no puede superar los 4MB',
-        });
         this.file = undefined;
         this.imgSelected = '/assets/img/01.jpg';
+        Swal.fire('Ups!', 'La imagen no puede superar los 4MB', 'error');
       }
     }
   }

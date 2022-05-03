@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
-import { environment } from 'src/environments/environment';
-
-declare var iziToast: any;
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-variety-product',
@@ -24,24 +22,21 @@ export class VarietyProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(({ id }) => (this.id = id));
     this.init_data();
-    this.url = environment.url;
   }
 
   init_data() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['id'];
-      this.productService.list_product_by_id(this.id).subscribe({
-        next: (res) => {
-          if (res.data != undefined) {
-            this.product = res.data;
-            this.load_data = false;
-          } else {
-            this.router.navigateByUrl('/dashboard/productos');
-          }
-        },
-        error: (err) => console.log(err),
-      });
+    this.productService.list_product_by_id(this.id).subscribe({
+      next: (res) => {
+        if (res.data != undefined) {
+          this.product = res.data;
+          this.load_data = false;
+        } else {
+          this.router.navigateByUrl('/dashboard/productos');
+        }
+      },
+      error: (err) => console.log(err),
     });
   }
 
@@ -52,10 +47,7 @@ export class VarietyProductComponent implements OnInit {
       });
       this.new_variety = '';
     } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'El campo de la variedad debe ser completada.',
-      });
+      Swal.fire('Ups!', 'El campo de la variedad es obligatorio.', 'error');
     }
   }
 
@@ -77,25 +69,16 @@ export class VarietyProductComponent implements OnInit {
           )
           .subscribe({
             next: () => {
-              iziToast.success({
-                title: 'OK',
-                message: 'Se actualizó correctamente las variedades',
-              });
               this.load_btn = false;
+              Swal.fire('Muy Bien!', 'Datos guardados', 'success');
             },
             error: (err) => console.log(err),
           });
       } else {
-        iziToast.error({
-          title: 'Error!',
-          message: 'Se debe agregar como mínimo un item en la variedad.',
-        });
+        Swal.fire('Ups!', 'Se debe agregar como mínimo un item.', 'error');
       }
     } else {
-      iziToast.error({
-        title: 'Error!',
-        message: 'Se debe ingresar el nombre de una variedad.',
-      });
+      Swal.fire('Ups!', 'Se debe ingresar el nombre de una variedad.', 'error');
     }
   }
 }

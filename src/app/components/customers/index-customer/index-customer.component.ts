@@ -47,6 +47,7 @@ export class IndexCustomerComponent implements OnInit {
   }
 
   delete_data(id: any, name: any) {
+    console.log(id);
     Swal.fire({
       title: 'Eliminar Usuario',
       text: `¿Desea eliminar el usuario ${name}?`,

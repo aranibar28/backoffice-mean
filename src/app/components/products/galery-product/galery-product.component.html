@@ -50,27 +50,11 @@
                     <tbody *ngIf="product.galery.length >= 1">
                       <tr *ngFor="let item of product.galery; let i = index">
                         <td>
-                          <img style="width: 80px" [src]="url + '/get_banner/' + item.image" >
+                          <img style="width: 80px" [src]="item.image | image" >
                         </td>
-                        <td><a class="text-danger" data-toggle="modal" [attr.data-target]="'#delete-'+item._id">Eliminar</a></td>
-                        <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered" role="document">
-                             <div class="modal-content">
-                                <div class="modal-header">
-                                   <h4 class="modal-title">Eliminar Imagen</h4>
-                                   <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                                </div>
-                                <div class="modal-body">
-                                   <p>Desea eliminar esta imagen ?</p>
-                                </div>
-                                <div class="modal-footer">
-                                   <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
-                                   <button *ngIf="!load_btn_image" class="btn btn-primary btn-sm" type="button" (click)="delete_data(item._id)">Sí, eliminar!</button>
-                                   <button *ngIf="load_btn_image" class="btn btn-primary btn-sm" type="button">Eliminando...</button>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
+                        <td>
+                          <a (click)="delete_data(item._id)" class="text-danger">Eliminar</a>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -80,7 +64,7 @@
           </div>
           <div class="col-md-3">
             <div class="card text-center">
-               <img style="min-width:230px" [src]="url + '/get_banner/' +product.banner" class="card-img-top" alt="Card image">
+               <img style="min-width:230px" [src]="product.banner | image" class="card-img-top" alt="Card image">
                <div class="card-body">
                   <h5 class="card-title">{{product.title}}</h5>
                   <p class="card-text text-muted fs-sm">{{product.description}}</p>

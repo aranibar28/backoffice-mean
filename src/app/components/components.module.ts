@@ -4,8 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ComponentsRoutingModule } from './components-routing.module';
+
+// Modulos Contenedores
 import { SharedModule } from '../shared/shared.module';
 import { PagesComponent } from './pages.component';
+import { ImagePipe } from '../pipes/image.pipe';
 
 // Modulos Externos
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -39,10 +42,11 @@ import { GaleryProductComponent } from './products/galery-product/galery-product
     NgxPaginationModule,
     NgxSkeletonLoaderModule,
     NgxTinymceModule.forRoot({
-      baseURL: '../../../assets/tinymce/',
+      baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.4/'
     }),
   ],
   declarations: [
+    ImagePipe,
     PagesComponent,
     InicioComponent,
     ConfigsComponent,

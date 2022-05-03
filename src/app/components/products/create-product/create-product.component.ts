@@ -55,9 +55,9 @@ export class CreateProductComponent implements OnInit {
         .register_product(this.registerForm.value, this.file)
         .subscribe({
           next: () => {
-            Swal.fire('Muy Bien!', 'Datos guardados correctamente', 'success');
             this.load_btn = false;
             this.router.navigateByUrl('/dashboard/productos');
+            Swal.fire('Muy Bien!', 'Datos guardados correctamente', 'success');
           },
           error: (err) => {
             console.log(err);
