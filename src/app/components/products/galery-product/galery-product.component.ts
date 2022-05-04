@@ -88,7 +88,7 @@ export class GaleryProductComponent implements OnInit {
     }
   }
 
-  delete_data(id: any) {
+  delete_image(id: any) {
     Swal.fire({
       title: 'Eliminar Producto',
       text: `¿Desea eliminar esta imagen?`,
