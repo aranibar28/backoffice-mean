@@ -7,6 +7,9 @@ import { ConfigsComponent } from './configs/configs.component';
 import { IndexCouponComponent } from './coupons/index-coupon/index-coupon.component';
 import { CreateCouponComponent } from './coupons/create-coupon/create-coupon.component';
 import { UpdateCouponComponent } from './coupons/update-coupon/update-coupon.component';
+import { IndexDiscountComponent } from './discounts/index-discount/index-discount.component';
+import { CreateDiscountComponent } from './discounts/create-discount/create-discount.component';
+import { UpdateDiscountComponent } from './discounts/update-discount/update-discount.component';
 import { IndexCustomerComponent } from './customers/index-customer/index-customer.component';
 import { CreateCustomerComponent } from './customers/create-customer/create-customer.component';
 import { UpdateCustomerComponent } from './customers/update-customer/update-customer.component';
@@ -25,6 +28,10 @@ const childRoutes: Routes = [
     { path: 'cupones',component: IndexCouponComponent },
     { path: 'cupones/registro',component: CreateCouponComponent },
     { path: 'cupones/:id',component: UpdateCouponComponent },
+
+    { path: 'descuentos',component: IndexDiscountComponent },
+    { path: 'descuentos/registro',component: CreateDiscountComponent },
+    { path: 'descuentos/:id',component: UpdateDiscountComponent },
 
     { path: 'productos',component: IndexProductComponent },
     { path: 'productos/registro',component: CreateProductComponent },

@@ -1,0 +1,107 @@
+<div class="card box-shadow-sm mt-6">
+
+    <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
+      <h2 class="mb-0 text-center">Registrar Descuento</h2>
+      <a class="btn btn-warning btn-xs ml-2" routerLink="/dashboard/descuentos">
+        <i class="cxi-arrow-back mr-1"></i> Regresar
+      </a>
+    </div>
+    
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-12 form-group">
+                <label for="">Titulo de Descuento <span class="text-danger">*</span></label>
+                <input
+                  [ngClass]="{ 'is-invalid': validate('title', true), 'is-valid': validate('title', false) }"
+                  class="form-control"
+                  type="text"
+                  placeholder="Titulo de Descuento"
+                  formControlName="title"
+                />
+              </div>
+              <div class="col-lg-6 form-group">
+                <label for="">Fecha Inicio <span class="text-danger">*</span></label>
+                <input
+                  [ngClass]="{ 'is-invalid': validate('start_date', true), 'is-valid': validate('start_date', false) }"
+                  class="form-control"
+                  type="date"
+                  formControlName="start_date"
+                />
+              </div>
+              <div class="col-lg-6 form-group">
+                <label for="">Fecha Final <span class="text-danger">*</span></label>
+                <input
+                  [ngClass]="{ 'is-invalid': validate('finish_date', true), 'is-valid': validate('finish_date', false) }"
+                  class="form-control"
+                  type="date"
+                  formControlName="finish_date"
+                />
+              </div>
+              <div class="col-lg-12 form-group">
+                <label for="">Descuento <span class="text-danger">*</span></label>
+                <input
+                  [ngClass]="{ 'is-invalid': validate('discount', true), 'is-valid': validate('discount', false) }"
+                  oninput="if (this.value.length > 3) this.value = this.value.slice(0, 3)"
+                  class="form-control"
+                  type="number"
+                  min="0"
+                  placeholder="Valor del descuento"
+                  formControlName="discount"
+                />
+                <span *ngIf="this.registerForm.controls['discount'].errors?.['min']" class="text-danger">El descuento tiene que ser mayor a 0</span>
+                <span *ngIf="this.registerForm.controls['discount'].errors?.['max']" class="text-danger">El descuento tiene que ser menor a 100</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="row">
+              <div class="col-lg-12 form-group">
+                <label for="">Banner <span class="text-danger">*</span></label>
+                <div class="custom-file">
+                  <input
+                    [ngClass]="{ 'is-valid': this.file }"
+                    class="custom-file-input"
+                    type="file"
+                    id="file-input"
+                    (change)="fileChanged($event)"
+                  />
+                  <label
+                    class="custom-file-label"
+                    id="input-portada"
+                    for="file-input"
+                    style="white-space: nowrap; overflow: hidden"
+                  >
+                    Seleccionar imagen
+                  </label>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <img
+                  [src]="imgSelected"
+                  class="img-thumbnail"
+                  alt="Rounded image"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button *ngIf="!load_btn" [ngClass]="{'btn-secondary':registerForm.invalid, 'btn-primary': registerForm.valid }" class="btn" type="submit">
+          Crear producto
+        </button>
+        <button *ngIf="load_btn" type="button" class="btn btn-primary" disabled>
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Cargando...
+        </button>
+      </div>
+    </form>
+  </div>
+  
