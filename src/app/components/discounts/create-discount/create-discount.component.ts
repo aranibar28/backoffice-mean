@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DiscountService } from 'src/app/services/discount.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { DiscountService } from 'src/app/services/discount.service';
 declare var $: any;
 
 @Component({

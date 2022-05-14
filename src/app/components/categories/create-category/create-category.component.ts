@@ -1,45 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductService } from 'src/app/services/product.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { CategoryService } from 'src/app/services/category.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { CategoryService } from 'src/app/services/category.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-create-product',
-  templateUrl: './create-product.component.html',
+  selector: 'app-create-category',
+  templateUrl: './create-category.component.html',
 })
-export class CreateProductComponent implements OnInit {
-  public product: any = { category: '' };
-  public categories: any;
+export class CreateCategoryComponent implements OnInit {
   public load_btn: boolean = false;
   public file: File | undefined;
   public imgSelected: any | ArrayBuffer = '/assets/img/01.jpg';
-  public config: any = {};
 
   constructor(
-    private productService: ProductService,
     private categoryService: CategoryService,
     private router: Router,
     private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {
-    this.config = { height: 500 };
-    this.categoryService.read_category_admin('').subscribe({
-      next: ({ data }) => (this.categories = data),
-    });
-  }
+  ngOnInit(): void {}
 
   registerForm: FormGroup = this.fb.group({
     title: [, [Validators.required, Validators.minLength(3)]],
-    stock: ['', [Validators.required]],
-    price: [, [Validators.required]],
-    category: ['', [Validators.required]],
+    icon: ['', [Validators.required]],
     description: ['', [Validators.required]],
-    container: ['', [Validators.required]],
   });
 
   register() {
@@ -48,16 +34,14 @@ export class CreateProductComponent implements OnInit {
       $('#file-input').addClass('is-invalid');
       return;
     }
-    if (this.file == undefined) {
-      Swal.fire('Ups!', 'Es obligatorio subir una foto del producto.', 'error');
-    } else {
+    if (this.file) {
       this.load_btn = true;
-      this.productService
-        .register_product(this.registerForm.value, this.file)
+      this.categoryService
+        .create_category_admin(this.registerForm.value, this.file)
         .subscribe({
           next: () => {
             this.load_btn = false;
-            this.router.navigateByUrl('/dashboard/productos');
+            this.router.navigateByUrl('/dashboard/categorias');
             Swal.fire('Muy Bien!', 'Datos guardados correctamente', 'success');
           },
           error: (err) => {
@@ -65,6 +49,8 @@ export class CreateProductComponent implements OnInit {
             this.load_btn = false;
           },
         });
+    } else {
+      Swal.fire('Ups!', 'Es obligatorio subir un banner.', 'error');
     }
   }
 
@@ -76,7 +62,7 @@ export class CreateProductComponent implements OnInit {
       $('#input-portada').text('Seleccionar imagen');
       $('#file-input').addClass('is-invalid');
     } else {
-      if (file.size <= 3000000) {
+      if (file.size <= 4000000) {
         if (
           file.type === 'image/png' ||
           file.type === 'image/jpg' ||

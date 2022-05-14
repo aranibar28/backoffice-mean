@@ -33,7 +33,9 @@ import { GaleryProductComponent } from './products/galery-product/galery-product
 import { CreateDiscountComponent } from './discounts/create-discount/create-discount.component';
 import { UpdateDiscountComponent } from './discounts/update-discount/update-discount.component';
 import { IndexDiscountComponent } from './discounts/index-discount/index-discount.component';
-import { DiscountPipe } from '../pipes/discount.pipe';
+import { IndexCategoryComponent } from './categories/index-category/index-category.component';
+import { CreateCategoryComponent } from './categories/create-category/create-category.component';
+import { UpdateCategoryComponent } from './categories/update-category/update-category.component';
 
 @NgModule({
   imports: [
@@ -51,7 +53,6 @@ import { DiscountPipe } from '../pipes/discount.pipe';
   ],
   declarations: [
     ImagePipe,
-    DiscountPipe,
     PagesComponent,
     InicioComponent,
     ConfigsComponent,
@@ -70,6 +71,9 @@ import { DiscountPipe } from '../pipes/discount.pipe';
     CreateDiscountComponent,
     UpdateDiscountComponent,
     IndexDiscountComponent,
+    IndexCategoryComponent,
+    CreateCategoryComponent,
+    UpdateCategoryComponent,
   ],
 })
 export class ComponentsModule {}

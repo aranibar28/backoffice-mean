@@ -1,0 +1,104 @@
+<div class="card box-shadow-sm mt-6">
+
+    <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
+      <h2 class="mb-0 text-center">Registrar Categoría</h2>
+      <a class="btn btn-warning btn-xs ml-2" routerLink="/dashboard/categorias">
+        <i class="cxi-arrow-back mr-1"></i> Regresar
+      </a>
+    </div>
+    
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-12 form-group">
+                <label for="">Titulo de Categoría <span class="text-danger">*</span></label>
+                <input
+                  [ngClass]="{ 'is-invalid': validate('title', true), 'is-valid': validate('title', false) }"
+                  class="form-control"
+                  type="text"
+                  placeholder="Titulo de Categoría"
+                  formControlName="title"
+                />
+              </div>
+              <div class="col-lg-12 form-group">
+                <label for="">Icono <span class="text-danger">*</span></label>
+                <select
+                [ngClass]="{ 'is-invalid': validate('icon', true), 'is-valid': validate('icon', false) }"
+                class="form-control custom-select"
+                id="select-input"
+                formControlName="icon"
+                >
+                  <option value="" selected disabled>Seleccionar</option>
+                  <option value="cxi-iphone">cxi-iphone</option>
+                  <option value="cxi-headset">cxi-headset</option>
+                  <option value="cxi-attach">cxi-attach</option>
+                  <option value="cxi-hanger">cxi-hanger</option>
+                  <option value="cxi-bag">cxi-bag</option>
+                  <option value="cxi-home">cxi-home</option>
+                </select>
+              </div>
+              <div class="col-lg-12 form-group">
+                <label for="">Descripción <span class="text-danger">*</span></label>
+                <textarea
+                  [ngClass]="{ 'is-invalid': validate('description', true), 'is-valid': validate('description', false) }"
+                  class="form-control"
+                  type="text"
+                  placeholder="Descripción"
+                  formControlName="description"
+                  cols="30" rows="5"
+                >
+                </textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="row">
+              <div class="col-lg-12 form-group">
+                <label for="">Banner <span class="text-danger">*</span></label>
+                <div class="custom-file">
+                  <input
+                    [ngClass]="{ 'is-valid': this.file }"
+                    class="custom-file-input"
+                    type="file"
+                    id="file-input"
+                    (change)="fileChanged($event)"
+                  />
+                  <label
+                    class="custom-file-label"
+                    id="input-portada"
+                    for="file-input"
+                    style="white-space: nowrap; overflow: hidden"
+                  >
+                    Seleccionar imagen
+                  </label>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <img
+                  [src]="imgSelected"
+                  class="img-thumbnail"
+                  alt="Rounded image"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button *ngIf="!load_btn" [ngClass]="{'btn-secondary':registerForm.invalid, 'btn-primary': registerForm.valid }" class="btn" type="submit">
+          Crear Categoría
+        </button>
+        <button *ngIf="load_btn" type="button" class="btn btn-primary" disabled>
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Cargando...
+        </button>
+      </div>
+    </form>
+  </div>
+  

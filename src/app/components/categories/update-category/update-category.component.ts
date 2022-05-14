@@ -1,71 +1,85 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductService } from 'src/app/services/product.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from 'src/app/services/category.service';
+import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
+const base_url = environment.url;
 declare var $: any;
 
 @Component({
-  selector: 'app-create-product',
-  templateUrl: './create-product.component.html',
+  selector: 'app-update-category',
+  templateUrl: './update-category.component.html',
 })
-export class CreateProductComponent implements OnInit {
-  public product: any = { category: '' };
-  public categories: any;
+export class UpdateCategoryComponent implements OnInit {
+  public category: any = {};
+  public load_data: boolean = true;
   public load_btn: boolean = false;
   public file: File | undefined;
   public imgSelected: any | ArrayBuffer = '/assets/img/01.jpg';
-  public config: any = {};
+  public imgCurrent: any;
+  public id: any;
 
   constructor(
-    private productService: ProductService,
+    private activatedRoute: ActivatedRoute,
     private categoryService: CategoryService,
     private router: Router,
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.config = { height: 500 };
-    this.categoryService.read_category_admin('').subscribe({
-      next: ({ data }) => (this.categories = data),
+    this.activatedRoute.params.subscribe(({ id }) => (this.id = id));
+    this.init_data();
+  }
+
+  updateForm: FormGroup = this.fb.group({
+    title: [, [Validators.required, Validators.minLength(3)]],
+    icon: ['', [Validators.required]],
+    description: ['', [Validators.required]],
+  });
+
+  init_data() {
+    this.categoryService.read_category_by_id(this.id).subscribe({
+      next: (res) => {
+        if (res.data) {
+          this.category = res.data;
+          this.updateForm.patchValue(this.category);
+          this.imgSelected = `${base_url}/get_banner_category/${this.category.banner}`;
+          this.imgCurrent = this.category.banner;
+          this.load_data = false;
+        } else {
+          this.router.navigateByUrl('/dashboard/categorias');
+        }
+      },
+      error: (err) => console.log(err),
     });
   }
 
-  registerForm: FormGroup = this.fb.group({
-    title: [, [Validators.required, Validators.minLength(3)]],
-    stock: ['', [Validators.required]],
-    price: [, [Validators.required]],
-    category: ['', [Validators.required]],
-    description: ['', [Validators.required]],
-    container: ['', [Validators.required]],
-  });
-
-  register() {
-    if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched();
-      $('#file-input').addClass('is-invalid');
+  update() {
+    if (this.updateForm.invalid) {
+      this.updateForm.markAllAsTouched();
       return;
     }
-    if (this.file == undefined) {
-      Swal.fire('Ups!', 'Es obligatorio subir una foto del producto.', 'error');
-    } else {
-      this.load_btn = true;
-      this.productService
-        .register_product(this.registerForm.value, this.file)
-        .subscribe({
-          next: () => {
-            this.load_btn = false;
-            this.router.navigateByUrl('/dashboard/productos');
-            Swal.fire('Muy Bien!', 'Datos guardados correctamente', 'success');
-          },
-          error: (err) => {
-            console.log(err);
-            this.load_btn = false;
-          },
-        });
+
+    if (this.file) {
+      const img = this.fb.control(this.file, Validators.required);
+      this.updateForm.addControl('banner', img);
     }
+
+    this.load_btn = true;
+    this.categoryService
+      .update_category_admin(this.updateForm.value, this.id)
+      .subscribe({
+        next: () => {
+          Swal.fire('Muy Bien!', 'Se actualizó correctamente', 'success');
+          this.load_btn = false;
+          this.router.navigateByUrl('/dashboard/categorias');
+        },
+        error: (err) => {
+          this.load_btn = false;
+          console.log(err);
+        },
+      });
   }
 
   fileChanged(event: any): void {
@@ -76,7 +90,7 @@ export class CreateProductComponent implements OnInit {
       $('#input-portada').text('Seleccionar imagen');
       $('#file-input').addClass('is-invalid');
     } else {
-      if (file.size <= 3000000) {
+      if (file.size <= 4000000) {
         if (
           file.type === 'image/png' ||
           file.type === 'image/jpg' ||
@@ -108,7 +122,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   validate(name: string, status: boolean) {
-    const input = this.registerForm.controls[name];
+    const input = this.updateForm.controls[name];
     return status ? input.errors && input.touched : input.valid;
   }
 }

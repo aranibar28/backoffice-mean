@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { CategoryService } from 'src/app/services/category.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 const base_url = environment.url;
@@ -24,16 +24,16 @@ export class UpdateProductComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private authService: AuthService,
+    private categoryService: CategoryService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder
   ) {
     this.config = { height: 500 };
     this.activatedRoute.params.subscribe(({ id }) => (this.id = id));
-    this.authService
-      .get_config_public()
-      .subscribe(({ data: { categories } }) => (this.categories = categories));
+    this.categoryService.read_category_admin('').subscribe({
+      next: ({ data }) => (this.categories = data),
+    });
   }
 
   ngOnInit(): void {
@@ -53,10 +53,25 @@ export class UpdateProductComponent implements OnInit {
     this.productService.list_product_by_id(this.id).subscribe({
       next: (res) => {
         if (res.data != undefined) {
-          const { title, stock, price, category, description, container, banner } = res.data;
-          this.updateForm.patchValue({ title, stock, price, category, description, container });
+          const {
+            title,
+            stock,
+            price,
+            category,
+            description,
+            container,
+            banner,
+          } = res.data;
+          this.updateForm.patchValue({
+            title,
+            stock,
+            price,
+            category,
+            description,
+            container,
+          });
           this.imgSelected = `${base_url}/get_banner/${banner}`;
-          this.imgCurrent = banner
+          this.imgCurrent = banner;
           this.load_data = false;
         } else {
           this.router.navigateByUrl('/dashboard/productos');
@@ -73,7 +88,10 @@ export class UpdateProductComponent implements OnInit {
     }
 
     if (this.file != undefined) {
-      this.updateForm.addControl('banner',this.fb.control(this.file, Validators.required));
+      this.updateForm.addControl(
+        'banner',
+        this.fb.control(this.file, Validators.required)
+      );
     }
 
     this.load_btn = true;

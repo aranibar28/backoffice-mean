@@ -19,6 +19,9 @@ import { UpdateProductComponent } from './products/update-product/update-product
 import { InventoryProductComponent } from './products/inventory-product/inventory-product.component';
 import { VarietyProductComponent } from './products/variety-product/variety-product.component';
 import { GaleryProductComponent } from './products/galery-product/galery-product.component';
+import { IndexCategoryComponent } from './categories/index-category/index-category.component';
+import { CreateCategoryComponent } from './categories/create-category/create-category.component';
+import { UpdateCategoryComponent } from './categories/update-category/update-category.component';
 
 const childRoutes: Routes = [
     { path: 'clientes',component: IndexCustomerComponent },
@@ -32,6 +35,10 @@ const childRoutes: Routes = [
     { path: 'descuentos',component: IndexDiscountComponent },
     { path: 'descuentos/registro',component: CreateDiscountComponent },
     { path: 'descuentos/:id',component: UpdateDiscountComponent },
+
+    { path: 'categorias',component: IndexCategoryComponent },
+    { path: 'categorias/registro',component: CreateCategoryComponent },
+    { path: 'categorias/:id',component: UpdateCategoryComponent },
 
     { path: 'productos',component: IndexProductComponent },
     { path: 'productos/registro',component: CreateProductComponent },

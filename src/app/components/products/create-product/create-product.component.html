@@ -51,8 +51,8 @@
                 formControlName="category"
               >
                 <option value="" selected disabled>Seleccionar</option>
-                <option *ngFor="let item of categories" [value]="item.name">
-                  {{ item.name }}
+                <option *ngFor="let item of categories" [value]="item.title">
+                  {{ item.title }}
                 </option>
               </select>
             </div>
