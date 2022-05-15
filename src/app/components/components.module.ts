@@ -36,6 +36,7 @@ import { IndexDiscountComponent } from './discounts/index-discount/index-discoun
 import { IndexCategoryComponent } from './categories/index-category/index-category.component';
 import { CreateCategoryComponent } from './categories/create-category/create-category.component';
 import { UpdateCategoryComponent } from './categories/update-category/update-category.component';
+import { IndexContactComponent } from './contacts/index-contact/index-contact.component';
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import { UpdateCategoryComponent } from './categories/update-category/update-cat
     IndexCategoryComponent,
     CreateCategoryComponent,
     UpdateCategoryComponent,
+    IndexContactComponent,
   ],
 })
 export class ComponentsModule {}

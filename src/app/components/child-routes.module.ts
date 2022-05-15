@@ -22,6 +22,7 @@ import { GaleryProductComponent } from './products/galery-product/galery-product
 import { IndexCategoryComponent } from './categories/index-category/index-category.component';
 import { CreateCategoryComponent } from './categories/create-category/create-category.component';
 import { UpdateCategoryComponent } from './categories/update-category/update-category.component';
+import { IndexContactComponent } from './contacts/index-contact/index-contact.component';
 
 const childRoutes: Routes = [
     { path: 'clientes',component: IndexCustomerComponent },
@@ -49,6 +50,7 @@ const childRoutes: Routes = [
     { path: 'productos/galeria/:id',component: GaleryProductComponent },
     
     { path: 'inicio', component: InicioComponent },
+    { path: 'contacto',component: IndexContactComponent },
     { path: 'configuracion',component: ConfigsComponent },
     { path: '**', redirectTo: 'inicio', pathMatch: 'full' },
 ]
