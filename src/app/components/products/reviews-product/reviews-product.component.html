@@ -16,7 +16,7 @@
         <div class="row mb-5">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 mb-2">
                         <div class="card text-center">
                            <img style="min-width:230px" [src]="product.banner | image: 'product'" class="card-img-top" alt="Card image">
                            <div class="card-body">
@@ -34,8 +34,8 @@
                             <div *ngFor="let item of reviews | paginate: { itemsPerPage: 5, currentPage: p }" class="col-12 mb-3">
                               <div class="mb-4 pb-4 border-bottom">
                                 <div class="row">
-                                  <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
-                                    <h3 class="mb-2 font-size-lg">{{ item.customer.first_name }} {{ item.customer.last_name }}</h3>
+                                  <div class="col-md-4 col-sm-4 mb-sm-0 mb-3">
+                                    <h3 class="mb-2 font-size-lg">{{ item.customer.first_name }} <br />{{ item.customer.last_name }}</h3>
                                     <span class="d-block mb-3 font-size-sm text-muted">{{ item.create_at | date }}</span>
                                     <div class="mt-n1 star-rating">
                                       <i class="sr-star cxi-star-filled" [ngClass]="{'active': item.starts >= 1}"></i>

@@ -75,4 +75,14 @@ export class AuthService {
     const url = `${base_url}/close_message_admin/${id}`;
     return this.http.put(url, data, this.headers);
   }
+
+  get_sales_admin(from: any, to: any): Observable<any> {
+    const url = `${base_url}/get_sales_admin/${from}/${to}`;
+    return this.http.get(url, this.headers);
+  }
+
+  read_orders_by_id(id: any): Observable<any> {
+    const url = `${base_url}/read_orders_by_id/${id}`;
+    return this.http.get(url, this.headers);
+  }
 }

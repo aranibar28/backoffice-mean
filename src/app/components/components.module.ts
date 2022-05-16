@@ -38,6 +38,8 @@ import { CreateCategoryComponent } from './categories/create-category/create-cat
 import { UpdateCategoryComponent } from './categories/update-category/update-category.component';
 import { IndexContactComponent } from './contacts/index-contact/index-contact.component';
 import { ReviewsProductComponent } from './products/reviews-product/reviews-product.component';
+import { IndexSaleComponent } from './sales/index-sale/index-sale.component';
+import { DetailSaleComponent } from './sales/detail-sale/detail-sale.component';
 
 @NgModule({
   imports: [
@@ -78,6 +80,8 @@ import { ReviewsProductComponent } from './products/reviews-product/reviews-prod
     UpdateCategoryComponent,
     IndexContactComponent,
     ReviewsProductComponent,
+    IndexSaleComponent,
+    DetailSaleComponent,
   ],
 })
 export class ComponentsModule {}

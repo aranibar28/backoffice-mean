@@ -24,6 +24,8 @@ import { CreateCategoryComponent } from './categories/create-category/create-cat
 import { UpdateCategoryComponent } from './categories/update-category/update-category.component';
 import { IndexContactComponent } from './contacts/index-contact/index-contact.component';
 import { ReviewsProductComponent } from './products/reviews-product/reviews-product.component';
+import { IndexSaleComponent } from './sales/index-sale/index-sale.component';
+import { DetailSaleComponent } from './sales/detail-sale/detail-sale.component';
 
 const childRoutes: Routes = [
     { path: 'clientes',component: IndexCustomerComponent },
@@ -37,6 +39,9 @@ const childRoutes: Routes = [
     { path: 'descuentos',component: IndexDiscountComponent },
     { path: 'descuentos/registro',component: CreateDiscountComponent },
     { path: 'descuentos/:id',component: UpdateDiscountComponent },
+
+    { path: 'ventas',component: IndexSaleComponent },
+    { path: 'ventas/:id',component: DetailSaleComponent },
 
     { path: 'categorias',component: IndexCategoryComponent },
     { path: 'categorias/registro',component: CreateCategoryComponent },
