@@ -75,7 +75,7 @@ export class ProductService {
     const url = `${base_url}/list_inventory_product/${id}`;
     return this.http.get(url, this.headers);
   }
- 
+
   delete_inventory_product(id: any): Observable<any> {
     const url = `${base_url}/delete_inventory_product/${id}`;
     return this.http.delete(url, this.headers);
@@ -99,4 +99,8 @@ export class ProductService {
     return this.http.put(url, data, this.headers);
   }
 
+  list_reviews_public(id: any): Observable<any> {
+    const url = `${base_url}/list_reviews_public/${id}`;
+    return this.http.get(url, this.headers);
+  }
 }

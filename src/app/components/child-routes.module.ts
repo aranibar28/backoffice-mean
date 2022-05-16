@@ -23,6 +23,7 @@ import { IndexCategoryComponent } from './categories/index-category/index-catego
 import { CreateCategoryComponent } from './categories/create-category/create-category.component';
 import { UpdateCategoryComponent } from './categories/update-category/update-category.component';
 import { IndexContactComponent } from './contacts/index-contact/index-contact.component';
+import { ReviewsProductComponent } from './products/reviews-product/reviews-product.component';
 
 const childRoutes: Routes = [
     { path: 'clientes',component: IndexCustomerComponent },
@@ -48,6 +49,7 @@ const childRoutes: Routes = [
     { path: 'productos/inventario/:id',component: InventoryProductComponent },
     { path: 'productos/variedades/:id',component: VarietyProductComponent },
     { path: 'productos/galeria/:id',component: GaleryProductComponent },
+    { path: 'productos/reviews/:id',component: ReviewsProductComponent },
     
     { path: 'inicio', component: InicioComponent },
     { path: 'contacto',component: IndexContactComponent },

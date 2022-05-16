@@ -37,6 +37,7 @@
             <th>Categoria</th>
             <th>Num Ventas</th>
             <th class="w200">Opciones</th>
+            <th class="w200">Mantenimiento</th>
           </tr>
         </thead>
         <ng-container *ngIf="load_data">
@@ -70,21 +71,25 @@
               <td>{{ item.num_sales }}</td>
               <td>
                 <div class="btn-group dropdown">
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary btn-sm dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
+                  <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Opciones
                   </button>
                   <div class="dropdown-menu">
                      <a [routerLink]="['/dashboard/productos', item._id]" class="dropdown-item">Editar</a>
                      <a (click)="delete_data(item._id, item.title)" class="dropdown-item">Eliminar</a>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="btn-group dropdown">
+                  <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Opciones
+                  </button>
+                  <div class="dropdown-menu">
                      <a [routerLink]="['/dashboard/productos/inventario', item._id]" class="dropdown-item">Inventario</a>
                      <a [routerLink]="['/dashboard/productos/variedades', item._id]" class="dropdown-item">Variedades</a>
                      <a [routerLink]="['/dashboard/productos/galeria', item._id]" class="dropdown-item">Galería</a>
+                     <a [routerLink]="['/dashboard/productos/reviews', item._id]" class="dropdown-item">Reseñas</a>
                   </div>
                 </div>
               </td>
