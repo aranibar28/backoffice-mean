@@ -85,4 +85,10 @@ export class AuthService {
     const url = `${base_url}/read_orders_by_id/${id}`;
     return this.http.get(url, this.headers);
   }
+
+  //KPI
+  kpi_mounth_earnings(): Observable<any> {
+    const url = `${base_url}/kpi_mounth_earnings`;
+    return this.http.get(url, this.headers);
+  }
 }

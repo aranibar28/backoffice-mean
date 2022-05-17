@@ -1,3 +1,98 @@
-<div class="border-bottom pt-5 pb-2 mt-lg-2 mb-5">
-    <h1 class="mt-3 mt-md-4 pt-5">Inicio</h1>
+<div class="card box-shadow-sm mt-6">
+  <div class="card-header d-flex flex-wrap justify-content-md-between justify-content-center">
+    <h2 class="mb-0 text-center">Dashboard</h2>
+  </div>
+  
+  <div class="card-body">
+    <div class="row">
+        <div class="col-12 col-lg-6 col-xl">
+          <div class="card">
+            <div class="card-body">
+              <div class="row align-items-center gx-0">
+                <div class="col">
+                  <h6 class="text-uppercase text-muted mb-2">
+                    Ganancia Total
+                  </h6>
+                  <span class="h2 mb-0">
+                    {{total_earnings | currency: "S/. " }}
+                  </span>
+                </div>
+                <div class="col-auto">
+                  <span class="h2 fe fe-dollar-sign text-muted mb-o"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl">
+            <div class="card">
+              <div class="card-body">
+                <div class="row align-items-center gx-0">
+                  <div class="col">
+                    <h6 class="text-uppercase text-muted mb-2">
+                    Ganancia del Mes
+                    </h6>
+                    <span class="h2 mb-0">
+                      {{total_earnings_month | currency: "S/. " }}
+                    </span>
+                  </div>
+                  <div class="col-auto">
+                    <span class="h2 fe fe-dollar-sign text-muted mb-o"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl">
+            <div class="card">
+              <div class="card-body">
+                <div class="row align-items-center gx-0">
+                  <div class="col">
+                    <h6 class="text-uppercase text-muted mb-2">
+                      Cantidad Ventas
+                    </h6>
+                    <span class="h2 mb-0">
+                      {{ count_sales }}
+                    </span>
+                  </div>
+                  <div class="col-auto">
+                    <span class="h2 fe fe-dollar-sign text-muted mb-o"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl">
+            <div class="card">
+              <div class="card-body">
+                <div class="row align-items-center gx-0">
+                  <div class="col">
+                    <h6 class="text-uppercase text-muted mb-2">
+                      Mes Anterior
+                    </h6>
+                    <span class="h2 mb-0">
+                      {{ total_earnings_before_month | currency: "S/. " }}
+                    </span>
+                    <span class="badge bg-succes-soft mt-n1">
+                      Cantidad Ventas: {{ count_sales_before_month }}
+                    </span>
+                  </div>
+                  <div class="col-auto">
+                    <span class="h2 fe fe-dollar-sign text-muted mb-o"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="card-body">
+    <h4>Ventas mensuales</h4>
+    <div class="row">
+        <div class="col-12">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+  </div>
 </div>

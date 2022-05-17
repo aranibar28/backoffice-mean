@@ -20,7 +20,6 @@ export class IndexSaleComponent implements OnInit {
   init_data() {
     this.authService.get_sales_admin(this.from, this.to).subscribe({
       next: (res) => {
-        console.log(res);
         this.sales = res.data;
       },
     });
@@ -29,7 +28,6 @@ export class IndexSaleComponent implements OnInit {
   filter() {
     this.authService.get_sales_admin(this.from, this.to).subscribe({
       next: (res) => {
-        console.log(res);
         this.sales = res.data;
       },
     });

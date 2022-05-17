@@ -31,7 +31,6 @@ export class DetailSaleComponent implements OnInit {
           this.order = res.data;
           this.details = res.details;
           this.load_data = false;
-          console.log(this.details);
         } else {
           this.router.navigateByUrl('/cuenta/ordenes');
         }
